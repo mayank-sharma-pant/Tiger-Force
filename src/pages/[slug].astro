@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { articles } from '../data/site';
+import PageBanner from '../components/PageBanner.astro';
+import { aboutLinks, articles, serviceLinks, site } from '../data/site';
 
 export function getStaticPaths() {
   return articles.map((article) => ({
@@ -10,39 +11,48 @@ export function getStaticPaths() {
 }
 
 const { article } = Astro.props;
+const href = `/${article.slug}`;
+const isService = serviceLinks.some((link) => link.href === href);
+const siblings = isService ? serviceLinks : aboutLinks;
+const tone = isService ? article.slug : 'group';
 ---
 
 <Base title={article.kicker} description={article.description}>
-  <header class="page-hero">
-    <p class="kicker">{article.kicker}</p>
-    <h1>{article.title}</h1>
-    <p class="lede">{article.lede}</p>
-  </header>
-  <div class="sheet-wrap">
-    <article class="sheet">
+  <PageBanner
+    title={article.title}
+    lede={article.lede}
+    trail={isService ? 'Services' : 'About us'}
+    current={article.kicker}
+    tone={tone}
+  />
+
+  <div class="page-body">
+    <article class="prose">
       {article.image && (
-        <div class="frame is-in">
+        <figure class="prose-figure" data-reveal="wipe">
           <img src={article.image} alt={article.imageAlt || ''} />
-        </div>
+        </figure>
       )}
       {article.sections.map((section) => (
         <section>
-          {section.heading && <h2>{section.heading}</h2>}
+          {section.heading && <h2 data-reveal>{section.heading}</h2>}
           {section.blocks.map((block) => {
             if (block.kind === 'prose') {
-              return block.paragraphs.map((paragraph) => <p>{paragraph}</p>);
+              return block.paragraphs.map((paragraph) => <p data-reveal>{paragraph}</p>);
             }
             if (block.kind === 'list') {
               return (
-                <ul class="list">
-                  {block.items.map((item) => <li>{item}</li>)}
+                <ul class="checks">
+                  {block.items.map((item, index) => (
+                    <li data-reveal style={`--d:${Math.min(index, 6)}`}>{item}</li>
+                  ))}
                 </ul>
               );
             }
             return (
-              <dl class="defs">
-                {block.items.map((item) => (
-                  <div>
+              <dl class="cards">
+                {block.items.map((item, index) => (
+                  <div data-reveal style={`--d:${index % 3}`}>
                     <dt>{item.title}</dt>
                     <dd>{item.text}</dd>
                   </div>
@@ -53,8 +63,25 @@ const { article } = Astro.props;
         </section>
       ))}
       {article.slug === 'eds-profile' && (
-        <p><a class="sheet-link" href="/mds-profile">Read the MD’s profile</a></p>
+        <p data-reveal><a class="btn btn-navy" href="/mds-profile">Read the MD’s profile</a></p>
       )}
     </article>
+
+    <aside class="page-aside">
+      <nav class="aside-nav" aria-label={isService ? 'Services' : 'About us'}>
+        <h2>{isService ? 'Services' : 'About us'}</h2>
+        <ul>
+          {siblings.map((link) => (
+            <li><a href={link.href} aria-current={link.href === href ? 'page' : undefined}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <div class="aside-card">
+        <h2>Talk to us</h2>
+        <p>We survey your premises before we deploy anyone.</p>
+        <a class="aside-phone" href={`tel:+91${site.phones[0]}`}>{site.phones[0]}</a>
+        <a class="btn btn-navy" href="/contact">Send an enquiry</a>
+      </div>
+    </aside>
   </div>
 </Base>

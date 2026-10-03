@@ -2,68 +2,93 @@
 import { aboutLinks, serviceLinks, site } from '../data/site';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-
-function current(href: string) {
-  return path === href ? 'page' : undefined;
-}
-
-const aboutOpen = aboutLinks.some((link) => link.href === path);
-const serviceOpen = serviceLinks.some((link) => link.href === path);
+const current = (href: string) => (path === href ? 'page' : undefined);
+const inGroup = (links: { href: string }[]) => links.some((link) => link.href === path);
 ---
 
-<header class="site-header">
-  <a class="brand" href="/">
-    <img src="/media/logo-wide.png" alt="" width="52" height="58" transition:name="crest" transition:persist />
-    <span class="brand-name">Tiger Force <em>Group</em></span>
+<header class="site-header" data-header>
+  <a class="brand" href="/" aria-label="Tiger Force Group home">
+    <img src="/media/crest/group.png" alt="" width="46" height="38" />
+    <span class="brand-word">Tiger Force <b>Group</b></span>
   </a>
-  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-    Menu
-  </button>
-  <nav id="site-nav" class="site-nav" aria-label="Primary">
-    <a href="/" aria-current={current('/')}>Home</a>
-    <details class="menu" open={aboutOpen || undefined}>
-      <summary>About</summary>
-      <div class="menu-panel">
-        {aboutLinks.map((link) => (
-          <a href={link.href} aria-current={current(link.href)}>{link.label}</a>
-        ))}
-      </div>
-    </details>
-    <details class="menu" open={serviceOpen || undefined}>
-      <summary>Services</summary>
-      <div class="menu-panel">
-        {serviceLinks.map((link) => (
-          <a href={link.href} aria-current={current(link.href)}>{link.label}</a>
-        ))}
-      </div>
-    </details>
-    <a href="/gallery" aria-current={current('/gallery')}>Gallery</a>
-    <a href="/clients" aria-current={current('/clients')}>Clients</a>
-    <a href="/documents" aria-current={current('/documents')}>Documents</a>
-    <a href="/contact" aria-current={current('/contact')}>Contact</a>
+
+  <nav class="nav" id="site-nav" aria-label="Primary">
+    <ul class="nav-list">
+      <li><a href="/" aria-current={current('/')}>Home</a></li>
+      <li class="has-menu" data-active={inGroup(aboutLinks) || undefined}>
+        <button type="button" class="nav-parent" aria-expanded="false">About us</button>
+        <ul class="submenu">
+          {aboutLinks.map((link) => (
+            <li><a href={link.href} aria-current={current(link.href)}>{link.label}</a></li>
+          ))}
+        </ul>
+      </li>
+      <li class="has-menu" data-active={inGroup(serviceLinks) || undefined}>
+        <button type="button" class="nav-parent" aria-expanded="false">Services</button>
+        <ul class="submenu">
+          {serviceLinks.map((link) => (
+            <li><a href={link.href} aria-current={current(link.href)}>{link.label}</a></li>
+          ))}
+        </ul>
+      </li>
+      <li><a href="/gallery" aria-current={current('/gallery')}>Gallery</a></li>
+      <li><a href="/clients" aria-current={current('/clients')}>Clients</a></li>
+      <li><a href="/documents" aria-current={current('/documents')}>Documents</a></li>
+      <li><a href="/contact" aria-current={current('/contact')}>Contact</a></li>
+    </ul>
   </nav>
-  <a class="nav-phone" href={`tel:${site.phones[0]}`}>{site.phoneDisplay}</a>
+
+  <a class="header-call" href={`tel:+91${site.phones[0]}`}>
+    <span>Call</span> {site.phones[0]}
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
 </header>
 
 <script>
-  function bindNav() {
-    const button = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('#site-nav');
-    if (!(button instanceof HTMLButtonElement) || !(nav instanceof HTMLElement) || button.dataset.bound) return;
-    button.dataset.bound = 'true';
-    const close = () => {
-      nav.classList.remove('is-open');
-      button.setAttribute('aria-expanded', 'false');
-      button.textContent = 'Menu';
+  function bindHeader() {
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    if (!header || header.dataset.bound) return;
+    header.dataset.bound = 'true';
+
+    const toggle = header.querySelector<HTMLButtonElement>('.nav-toggle')!;
+    const parents = header.querySelectorAll<HTMLButtonElement>('.nav-parent');
+
+    const closeMenus = () => parents.forEach((button) => button.setAttribute('aria-expanded', 'false'));
+    const setOpen = (open: boolean) => {
+      document.documentElement.classList.toggle('nav-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     };
-    button.addEventListener('click', () => {
-      const open = nav.classList.toggle('is-open');
-      button.setAttribute('aria-expanded', open ? 'true' : 'false');
-      button.textContent = open ? 'Close' : 'Menu';
+
+    parents.forEach((button) =>
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const open = button.getAttribute('aria-expanded') === 'true';
+        closeMenus();
+        button.setAttribute('aria-expanded', String(!open));
+      }),
+    );
+    toggle.addEventListener('click', () => setOpen(!document.documentElement.classList.contains('nav-open')));
+    document.addEventListener('click', (event) => {
+      if (!header.contains(event.target as Node)) closeMenus();
     });
-    nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
-    document.addEventListener('astro:before-preparation', close);
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      closeMenus();
+      setOpen(false);
+    });
+    document.addEventListener('astro:before-preparation', () => {
+      closeMenus();
+      setOpen(false);
+    });
+
+    const onScroll = () => header.classList.toggle('is-solid', window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
-  bindNav();
-  document.addEventListener('astro:page-load', bindNav);
+
+  document.addEventListener('astro:page-load', bindHeader);
 </script>

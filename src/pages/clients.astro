@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
 import { clientsNamed, sectors } from '../data/site';
 
 const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
@@ -7,28 +8,27 @@ const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${
 
 <Base
   title="Clients"
-  description="Organisations served by Tiger Force Group across government, healthcare, hospitality, retail, and industry."
+  description="Organisations served by Tiger Force Group across government, healthcare, hospitality, retail and industry."
 >
-  <header class="page-hero">
-    <p class="kicker">Clients</p>
-    <h1>Names the work has to live up to.</h1>
-    <p class="lede">Government institutes, hospitals, hotels, and industry. Marks below are the logos published on the current Tiger Force site.</p>
-  </header>
-  <div class="sheet-wrap">
-    <div class="sheet">
-      <div class="client-board">
-        {logos.map((src, index) => (
-          <img src={src} alt={`Client mark ${index + 1} from the Tiger Force client archive.`} />
-        ))}
-      </div>
-      <h2>Named in the company record</h2>
-      <ul class="list">
-        {clientsNamed.map((name) => <li>{name}</li>)}
-      </ul>
-      <h2>Sectors</h2>
-      <ul class="list">
-        {sectors.map((sector) => <li>{sector}</li>)}
-      </ul>
+  <PageBanner
+    title="Our clients"
+    lede="Government organisations, universities, hospitals, hotels, manufacturers and logistics companies."
+    current="Clients"
+  />
+  <div class="page-wide">
+    <ul class="sector-chips is-left" data-reveal>
+      {sectors.map((sector) => <li>{sector}</li>)}
+    </ul>
+    <div class="logo-grid">
+      {logos.map((src, index) => (
+        <div class="logo-cell" data-reveal style={`--d:${index % 6}`}>
+          <img src={src} alt={`Client logo ${index + 1}`} loading="lazy" />
+        </div>
+      ))}
     </div>
+    <h2 class="page-subhead" data-reveal>Organisations we have served</h2>
+    <ul class="name-columns">
+      {clientsNamed.map((name) => <li data-reveal>{name}</li>)}
+    </ul>
   </div>
 </Base>

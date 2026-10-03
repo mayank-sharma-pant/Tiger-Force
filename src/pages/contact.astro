@@ -1,56 +1,70 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
 import { site } from '../data/site';
 ---
 
-<Base title="Contact" description="Write to Tiger Force Group, or call the Delhi and Gurgaon offices.">
-  <header class="page-hero">
-    <p class="kicker">Contact</p>
-    <h1>Write to the desk.</h1>
-    <p class="lede">The form opens an email to {site.email}. Both offices and all three numbers stay on this page.</p>
-  </header>
-  <div class="sheet-wrap">
-    <div class="contact-layout">
-      <form class="sheet" id="enquiry" novalidate>
-        <div class="field">
-          <label for="name"><span>Name</span></label>
-          <input id="name" name="name" autocomplete="name" required />
-        </div>
-        <div class="field">
-          <label for="phone"><span>Phone</span></label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" required />
-        </div>
-        <div class="field">
-          <label for="email"><span>Email, if you want a reply there</span></label>
-          <input id="email" name="email" type="email" autocomplete="email" />
-        </div>
-        <div class="field">
-          <label for="message"><span>Message</span></label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <p class="form-error" id="form-error" role="alert"></p>
-        <button class="btn" type="submit">Open email</button>
-        <p class="form-status" id="form-status" hidden>
-          Your email app should open with this message addressed to {site.email}. If it does not, copy that address and send it yourself.
-        </p>
-      </form>
-      <div>
-        {site.offices.map((office) => (
-          <article class="office-card">
-            <h2>{office.label}</h2>
-            <p>{office.line}</p>
-          </article>
-        ))}
-        <article class="office-card">
-          <h2>Lines</h2>
-          {site.phones.map((phone) => (
-            <p><a href={`tel:+91${phone.replace(/^0/, '')}`}>{phone}</a></p>
-          ))}
-          <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
-          <p><a href={`mailto:${site.emailAlt}`}>{site.emailAlt}</a></p>
-          <p>{site.websites.join(' · ')}</p>
-        </article>
+<Base title="Contact" description="Contact Tiger Force Group in New Delhi and Gurgaon by phone, email or enquiry form.">
+  <PageBanner
+    title="Contact us"
+    lede="Tell us about your site. We will call you back, survey the premises and send our recommendations."
+    current="Contact"
+  />
+  <div class="page-wide contact-grid">
+    <form class="enquiry" id="enquiry" novalidate data-reveal>
+      <h2>Send an enquiry</h2>
+      <div class="field-row">
+        <label class="field">
+          <span>Name</span>
+          <input name="name" autocomplete="name" required />
+        </label>
+        <label class="field">
+          <span>Phone</span>
+          <input name="phone" type="tel" autocomplete="tel" required />
+        </label>
       </div>
+      <label class="field">
+        <span>Email (optional)</span>
+        <input name="email" type="email" autocomplete="email" />
+      </label>
+      <fieldset class="field">
+        <legend>Service</legend>
+        <div class="choice-row">
+          <label><input type="radio" name="service" value="Security" checked /> Security</label>
+          <label><input type="radio" name="service" value="Housekeeping" /> Housekeeping</label>
+          <label><input type="radio" name="service" value="Manpower" /> Manpower</label>
+        </div>
+      </fieldset>
+      <label class="field">
+        <span>Message</span>
+        <textarea name="message" rows="5" required placeholder="Site location, type of premises and how many people you need."></textarea>
+      </label>
+      <p class="form-error" role="alert" data-error></p>
+      <button class="btn btn-yellow" type="submit">Send enquiry</button>
+      <p class="form-note" data-status hidden>
+        Your email app should now open with this enquiry addressed to {site.email}. If it does not, email us
+        directly or call {site.phones[0]}.
+      </p>
+    </form>
+
+    <div class="contact-info" data-reveal style="--d:1">
+      <div class="info-block">
+        <h2>Call</h2>
+        {site.phones.map((phone) => (
+          <a class="info-big" href={`tel:+91${phone.replace(/^0/, '')}`}>{phone}</a>
+        ))}
+      </div>
+      <div class="info-block">
+        <h2>Email</h2>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a href={`mailto:${site.emailAlt}`}>{site.emailAlt}</a>
+      </div>
+      {site.offices.map((office) => (
+        <div class="info-block">
+          <h2>{office.label}</h2>
+          <p>{office.line}</p>
+        </div>
+      ))}
     </div>
   </div>
 </Base>
@@ -59,40 +73,41 @@ import { site } from '../data/site';
   import { site } from '../data/site';
 
   function bindForm() {
-    const form = document.querySelector('#enquiry');
-    if (!(form instanceof HTMLFormElement) || form.dataset.bound) return;
+    const form = document.querySelector<HTMLFormElement>('#enquiry');
+    if (!form || form.dataset.bound) return;
     form.dataset.bound = 'true';
-    const error = document.querySelector('#form-error');
-    const status = document.querySelector('#form-status');
+    const error = form.querySelector<HTMLElement>('[data-error]')!;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      if (!(error instanceof HTMLElement) || !(status instanceof HTMLElement)) return;
       const data = new FormData(form);
       const name = String(data.get('name') || '').trim();
       const phone = String(data.get('phone') || '').trim();
       const email = String(data.get('email') || '').trim();
+      const service = String(data.get('service') || '');
       const message = String(data.get('message') || '').trim();
-      const digits = phone.replace(/\D/g, '');
-      if (!name || digits.length < 8 || !message) {
-        error.textContent = 'Add your name, a phone number, and the message.';
+
+      if (!name || phone.replace(/\D/g, '').length < 8 || !message) {
+        error.textContent = 'Enter your name, a phone number with at least 8 digits, and a message.';
         status.hidden = true;
         return;
       }
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        error.textContent = 'That email address is not usable. Correct it, or leave the field empty.';
+        error.textContent = 'Check the email address, or leave it empty.';
         status.hidden = true;
         return;
       }
+
       error.textContent = '';
-      const body = [`Name: ${name}`, `Phone: ${phone}`, email ? `Email: ${email}` : '', '', message]
-        .filter((line) => line !== '')
-        .join('\n');
-      const href = `mailto:${site.email}?subject=${encodeURIComponent(`Enquiry from ${name}`)}&body=${encodeURIComponent(body)}`;
-      window.location.href = href;
+      const lines = [`Name: ${name}`, `Phone: ${phone}`];
+      if (email) lines.push(`Email: ${email}`);
+      lines.push(`Service: ${service}`, '', message);
+      const body = lines.join('\n');
+      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(`${service} enquiry from ${name}`)}&body=${encodeURIComponent(body)}`;
       status.hidden = false;
     });
   }
 
-  bindForm();
   document.addEventListener('astro:page-load', bindForm);
 </script>

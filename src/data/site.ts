@@ -95,7 +95,7 @@ export type Article = {
 export const articles: Article[] = [
   {
     slug: 'brief-profile',
-    title: 'A licensed company with three divisions.',
+    title: 'About Tiger Force Group',
     kicker: 'Brief profile',
     lede: 'Tiger Force Group places trained people into security, housekeeping, and manpower, and stays on the site after they arrive.',
     description:
@@ -156,7 +156,7 @@ export const articles: Article[] = [
   },
   {
     slug: 'vision',
-    title: 'Quality manpower, in the places people depend on.',
+    title: 'Our vision',
     kicker: 'Vision',
     lede: 'Touching lives by providing quality manpower solutions — on the sites where a missed post is felt immediately.',
     description: 'Tiger Force Group’s vision: quality manpower solutions that hold up where people depend on them.',
@@ -178,7 +178,7 @@ export const articles: Article[] = [
   },
   {
     slug: 'mission',
-    title: 'Exceed the brief. Keep the people who can do it.',
+    title: 'Our mission',
     kicker: 'Mission',
     lede: 'Tiger Force Group aims to lead in security, housekeeping, and manpower by exceeding what the client expected, and by keeping a workforce worth deploying.',
     description:
@@ -201,9 +201,9 @@ export const articles: Article[] = [
   },
   {
     slug: 'values',
-    title: 'Nine commitments, used on the site.',
+    title: 'Our values',
     kicker: 'Values',
-    lede: 'These are the working rules: how Tiger Force treats clients, staff, and the post itself.',
+    lede: 'The principles behind how Tiger Force treats its clients, its staff, and every post it covers.',
     description: 'Tiger Force values: teamwork, response, passion, discipline, trust, value, integrity, research, and custom work.',
     image: '/media/gallery/picture-20.jpg',
     imageAlt: 'Tiger Force staff at a reception desk.',
@@ -257,7 +257,7 @@ export const articles: Article[] = [
   },
   {
     slug: 'ethos',
-    title: 'A partner who is still there at the difficult hour.',
+    title: 'Our ethos',
     kicker: 'Ethos',
     lede: 'Understand the requirement first. Survey the site. Then place people — and keep senior staff close while the routine settles.',
     description: 'The Tiger Force ethos: operational support, custom demand, and supervision that continues after deployment.',
@@ -287,9 +287,9 @@ export const articles: Article[] = [
   },
   {
     slug: 'mds-profile',
-    title: 'Col K. K. Nanda (Retd), Managing Director.',
+    title: 'Col K. K. Nanda (Retd)',
     kicker: 'MD’s profile',
-    lede: 'Thirty-two years in the Indian Army. A second career built on audit, training, and event security — and on Tiger Force itself.',
+    lede: 'Managing Director. Thirty-two years in the Indian Army, then two decades building Tiger Force.',
     description:
       'Profile of Col K. K. Nanda (Retd), Managing Director of Tiger Force Security Services.',
     image: '/media/gallery/picture-19.jpg',
@@ -312,9 +312,9 @@ export const articles: Article[] = [
   },
   {
     slug: 'mds-message',
-    title: 'A note from the Managing Director.',
+    title: 'Managing Director’s message',
     kicker: 'MD’s message',
-    lede: 'Two decades of clients, paid on time, surveyed before anyone is placed.',
+    lede: 'Col K. K. Nanda (Retd) on two decades of Tiger Force Group.',
     description: 'Message from Col K. K. Nanda (Retd), Managing Director of Tiger Force Group.',
     image: '/media/gallery/picture-1.jpg',
     imageAlt: 'Tiger Force guards assembled outdoors for parade.',
@@ -338,7 +338,7 @@ export const articles: Article[] = [
   },
   {
     slug: 'eds-profile',
-    title: 'Executive Director.',
+    title: 'Executive Director',
     kicker: 'ED’s profile',
     lede: 'This profile has not been published.',
     description: 'The Executive Director profile at Tiger Force Group is not yet published.',
@@ -358,9 +358,9 @@ export const articles: Article[] = [
   },
   {
     slug: 'why-tiger-force',
-    title: 'Choose the company that can name its standard.',
+    title: 'Why Tiger Force',
     kicker: 'Why Tiger Force',
-    lede: 'Tiger Force calls that standard the Star: know the client, cover the post, and stay inside a budget without dropping the procedure.',
+    lede: 'Many companies supply guards and staff. Here is what Tiger Force does differently, from the first survey to supervision after deployment.',
     description:
       'Why organisations choose Tiger Force for security, housekeeping, and manpower.',
     image: '/media/gallery/wa.jpg',
@@ -420,9 +420,9 @@ export const articles: Article[] = [
   },
   {
     slug: 'security',
-    title: 'Security that is briefed, verified, and checked.',
+    title: 'Security Services',
     kicker: 'Security services',
-    lede: 'Uniformed guarding, events, audit, VIP cover, investigations, and night patrol — headed by Col K. K. Nanda (Retd).',
+    lede: 'Uniformed guarding, event security, audit, VIP cover, investigations and night patrol, headed by Col K. K. Nanda (Retd).',
     description:
       'Tiger Force Security Services: guarding, event security, audit, VIP cover, investigations, and night patrol. DGR registered.',
     image: '/media/gallery/picture-19.jpg',
@@ -509,9 +509,9 @@ export const articles: Article[] = [
   },
   {
     slug: 'housekeeping',
-    title: 'Housekeeping written for the surface, not just the room.',
+    title: 'Housekeeping Services',
     kicker: 'Housekeeping services',
-    lede: 'Custom cleaning for offices, hospitals, hotels, factories, and public areas — with the chemical matched to the surface.',
+    lede: 'Custom housekeeping for offices, hospitals, hotels, factories and public areas, with the right chemical for every surface.',
     description:
       'Tiger Force Housekeeping: offices, hospitals, hotels, public areas, factories, malls, IT parks, and warehouses.',
     image: '/media/housekeeping-2.jpg',
@@ -565,9 +565,9 @@ export const articles: Article[] = [
   },
   {
     slug: 'manpower',
-    title: 'People for the desk, the floor, and the back office.',
+    title: 'Manpower Solutions',
     kicker: 'Manpower solutions',
-    lede: 'Hospitality-led manpower under Mr Aditya Nanda, with the group’s direction from Col K. K. Nanda (Retd).',
+    lede: 'Front-office, hospitality and back-office staff, headed by Mr Aditya Nanda under the guidance of Col K. K. Nanda (Retd).',
     description:
       'Tiger Force Manpower Solutions: food and beverage, reception, IT desk, back office, accounts, and call centre staff.',
     image: '/media/gallery/picture-20.jpg',

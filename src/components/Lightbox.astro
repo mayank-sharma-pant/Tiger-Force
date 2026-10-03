@@ -1,28 +1,28 @@
-<dialog id="lightbox">
+<dialog class="lightbox" id="lightbox" aria-label="Image viewer">
   <form method="dialog">
-    <button class="btn dialog-close" value="cancel">Close</button>
+    <button class="lightbox-close" value="cancel" aria-label="Close">×</button>
   </form>
   <img id="lightbox-image" alt="" />
 </dialog>
 
 <script>
   function bindLightbox() {
-    const dialog = document.querySelector('#lightbox');
-    const image = document.querySelector('#lightbox-image');
-    if (!(dialog instanceof HTMLDialogElement) || !(image instanceof HTMLImageElement)) return;
-    document.querySelectorAll('[data-full]').forEach((node) => {
-      if (!(node instanceof HTMLButtonElement) || node.dataset.bound) return;
+    const dialog = document.querySelector<HTMLDialogElement>('#lightbox');
+    const image = document.querySelector<HTMLImageElement>('#lightbox-image');
+    if (!dialog || !image) return;
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    document.querySelectorAll<HTMLButtonElement>('[data-full]').forEach((node) => {
+      if (node.dataset.bound) return;
       node.dataset.bound = 'true';
       node.addEventListener('click', () => {
-        const full = node.dataset.full;
-        const alt = node.dataset.alt || '';
-        if (!full) return;
-        image.src = full;
-        image.alt = alt;
+        image.src = node.dataset.full || '';
+        image.alt = node.dataset.alt || '';
         dialog.showModal();
       });
     });
   }
-  bindLightbox();
+
   document.addEventListener('astro:page-load', bindLightbox);
 </script>

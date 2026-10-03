@@ -1,133 +1,313 @@
 ---
 import Base from '../layouts/Base.astro';
-import { clientsNamed, sectors } from '../data/site';
+import { sectors, site } from '../data/site';
+
+const divisions = [
+  {
+    key: 'security',
+    name: 'Security Services',
+    href: '/security',
+    crest: '/media/crest/security.png',
+    photo: '/media/gallery/wa.jpg',
+    photoAlt: 'A Tiger Force officer briefing guards at a logistics yard.',
+    intro:
+      'Trained guards, verified by the police before deployment and briefed before every shift. Headed by Col K. K. Nanda (Retd).',
+    services: [
+      'Uniformed guarding',
+      'Event security',
+      'Security audit and consultancy',
+      'Security cover for VIPs',
+      'Investigations',
+      'Night patrol',
+    ],
+  },
+  {
+    key: 'housekeeping',
+    name: 'Housekeeping Services',
+    href: '/housekeeping',
+    crest: '/media/crest/housekeeping.png',
+    photo: '/media/housekeeping-2.jpg',
+    photoAlt: 'A housekeeper preparing a hotel room.',
+    intro:
+      'Integrated housekeeping with machines, the right chemical for each surface, regular audits and a relationship manager for every site.',
+    services: [
+      'Office cleaning',
+      'Hospital housekeeping',
+      'Hotel housekeeping',
+      'Public area cleaning',
+      'Factory housekeeping',
+      'Malls, IT parks and warehouses',
+    ],
+  },
+  {
+    key: 'manpower',
+    name: 'Manpower Solutions',
+    href: '/manpower',
+    crest: '/media/crest/manpower.png',
+    photo: '/media/gallery/picture-20.jpg',
+    photoAlt: 'Tiger Force staff at a reception desk.',
+    intro:
+      'Front-office, hospitality and back-office staff, led by Mr Aditya Nanda, who specialises in the hospitality industry.',
+    services: [
+      'Reception desk services',
+      'Food and beverage staff',
+      'Kitchen stewarding',
+      'IT desk solutions',
+      'Computer operators',
+      'Call centre solutions',
+    ],
+  },
+];
+
+const supervision = [
+  { value: 14, unit: 'days', label: 'of training before a guard is deployed, including two days for your sector' },
+  { value: 15, unit: 'minutes', label: 'of briefing before every shift, and a debrief after it' },
+  { value: 4, unit: 'visits a week', label: 'by the area officer, signed in the muster book on site' },
+  { value: 3, unit: 'night checks a week', label: 'at varied hours, so every check is a surprise' },
+];
 
 const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
-const rail = [...logos, ...logos];
+const rowA = logos.slice(0, 20);
+const rowB = logos.slice(20);
+
+const gallery = [
+  { src: '/media/gallery/picture-212.jpg', alt: 'Event security escorting guests at an exhibition.', label: 'Event security' },
+  { src: '/media/gallery/picture-20.jpg', alt: 'Tiger Force staff at an event control desk.', label: 'Control desk' },
+  { src: '/media/gallery/picture-12.jpg', alt: 'A firefighting drill during training.', label: 'Fire drill' },
+  { src: '/media/gallery/picture-19.jpg', alt: 'Guards posted at an exhibition stand.', label: 'Exhibition duty' },
+  { src: '/media/gallery/picture-1.jpg', alt: 'Tiger Force guards assembled for parade.', label: 'Morning parade' },
+];
 ---
 
 <Base
   title="Tiger Force Group"
-  description="Licensed security, housekeeping, and manpower for government offices, hospitals, hotels, and industry. Registered with the Directorate General Resettlement. Led by Col K. K. Nanda (Retd)."
+  description="Tiger Force Group provides security, housekeeping and manpower services. Registered with DGR, Ministry of Defence. PSARA licensed and ISO certified. Led by Col K. K. Nanda (Retd)."
 >
-  <section class="hero">
-    <div class="hero-media">
-      <img src="/media/gallery/picture-1.jpg" alt="Tiger Force guards assembled outdoors for parade." />
+  <section class="crest-scene" data-scene>
+    <div class="crest-stage">
+      <div class="stage-glow" aria-hidden="true"></div>
+      <div class="stage-stripes" aria-hidden="true"></div>
+
+      <div class="crest-hero">
+        <div class="crest-mark">
+          <svg class="crest-outline" viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="ring" cx="100" cy="100" r="96" pathLength="1"></circle>
+            <circle class="ticks" cx="100" cy="100" r="88"></circle>
+          </svg>
+          <img class="crest-group" src="/media/crest/group.png" alt="Tiger Force Group crest" width="900" height="744" />
+        </div>
+        <div class="crest-title">
+          <h1><span class="line">Tiger Force</span> <span class="line accent">Group</span></h1>
+          <p>Security <i></i> Housekeeping <i></i> Manpower</p>
+        </div>
+      </div>
+
+      <div class="crest-divisions">
+        <p class="divisions-kicker">Three divisions <i></i> One standard</p>
+        {divisions.map((division, index) => (
+          <a class={`crest-division is-${division.key}`} href={division.href} style={`--i:${index - 1}`}>
+            <img src={division.crest} alt="" width="445" height="388" />
+            <strong>{division.name}</strong>
+            <span>{division.services.slice(0, 3).join(', ')}</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true"><span></span>Scroll</div>
     </div>
-    <div class="hero-copy">
-      <p class="kicker">DGR registered · PSARA · ISO</p>
-      <h1>
-        <span>On post,</span>
-        <span>on standard.</span>
-      </h1>
-      <p class="lede">
-        Licensed security, housekeeping, and manpower for government offices, hospitals, hotels, and industry.
-        Registered with the Directorate General Resettlement. Led by Col K. K. Nanda (Retd).
+  </section>
+
+  <section class="intro">
+    <div class="intro-copy">
+      <p class="eyebrow" data-reveal>About Tiger Force Group</p>
+      <h2 data-reveal style="--d:1">
+        Two decades of keeping India’s institutions <mark>secure</mark>, clean and staffed.
+      </h2>
+      <p data-reveal style="--d:2">
+        Tiger Force Group is a licensed company registered with the Directorate General Resettlement, Ministry of
+        Defence, New Delhi. Its people serve government offices, universities, hospitals, five-star hotels,
+        factories, warehouses and residential complexes.
       </p>
-      <div class="hero-actions">
-        <a class="btn" href="/contact">Write to the desk</a>
-        <a class="btn btn-ghost" href="/security">Security services</a>
-      </div>
+      <ul class="badges" data-reveal style="--d:3">
+        <li><strong>DGR</strong> Ministry of Defence registration</li>
+        <li><strong>PSARA</strong> Licences for various states</li>
+        <li><strong>ISO</strong> Certified processes</li>
+      </ul>
+      <a class="btn btn-navy" href="/brief-profile" data-reveal style="--d:4">Read our profile</a>
     </div>
-    <p class="stamp">Two decades</p>
-  </section>
-
-  <section class="duty" aria-label="Standing facts">
-    <p><span>01</span> Directorate General Resettlement, Ministry of Defence</p>
-    <p><span>02</span> PSARA licences for various states, with ISO certification</p>
-    <p><span>03</span> Col K. K. Nanda (Retd), 32 years in the Indian Army</p>
-  </section>
-
-  <section class="section" aria-labelledby="divisions-title">
-    <div class="section-head">
-      <h2 id="divisions-title">Three divisions</h2>
-      <p>One company. Security, housekeeping, and manpower, each with its own lead and the same supervision after deployment.</p>
+    <div class="intro-visual" data-reveal="rise">
+      <img src="/media/guards.png" alt="Six Tiger Force guards in uniform." width="1600" height="571" loading="lazy" />
     </div>
   </section>
 
-  <a class="division" href="/security">
-    <div class="division-copy">
-      <div>
-        <div class="division-index">01</div>
-        <h3>Security</h3>
-        <p>Uniformed guarding, events, audit, VIP cover, investigations, and night patrol. Briefed before the shift. Checked after dark.</p>
-      </div>
-      <span class="division-go">Open security</span>
-    </div>
-    <div class="frame">
-      <img src="/media/gallery/wa.jpg" alt="A briefing beside trucks at a logistics yard." />
-    </div>
-  </a>
-  <a class="division" href="/housekeeping">
-    <div class="frame">
-      <img src="/media/housekeeping-2.jpg" alt="Hotel room housekeeping." />
-    </div>
-    <div class="division-copy">
-      <div>
-        <div class="division-index">02</div>
-        <h3>Housekeeping</h3>
-        <p>Offices, hospitals, hotels, factories, and public areas. The chemical is matched to the surface. A relationship manager stays on the account.</p>
-      </div>
-      <span class="division-go">Open housekeeping</span>
-    </div>
-  </a>
-  <a class="division" href="/manpower">
-    <div class="division-copy">
-      <div>
-        <div class="division-index">03</div>
-        <h3>Manpower</h3>
-        <p>Reception, food and beverage, IT desk, back office, and call centre staff. The wing is headed by Mr Aditya Nanda.</p>
-      </div>
-      <span class="division-go">Open manpower</span>
-    </div>
-    <div class="frame">
-      <img src="/media/gallery/picture-20.jpg" alt="Tiger Force staff at a reception desk." />
-    </div>
-  </a>
+  <section class="divisions" data-divisions aria-label="Our three divisions">
+    {divisions.map((division) => (
+      <article class={`division is-${division.key}`} data-division={division.key}>
+        <div class="division-crest" data-reveal="pop">
+          <img src={division.crest} alt={`${division.name} crest`} width="445" height="388" loading="lazy" />
+        </div>
+        <div class="division-body">
+          <h2 data-reveal>{division.name}</h2>
+          <p data-reveal style="--d:1">{division.intro}</p>
+          <ul class="service-list">
+            {division.services.map((service, index) => (
+              <li data-reveal style={`--d:${index + 2}`}>{service}</li>
+            ))}
+          </ul>
+          <a class="btn btn-yellow" href={division.href} data-reveal style="--d:8">
+            Explore {division.name.toLowerCase()}
+          </a>
+        </div>
+        <figure class="division-photo" data-reveal="wipe">
+          <img src={division.photo} alt={division.photoAlt} loading="lazy" />
+        </figure>
+      </article>
+    ))}
+  </section>
 
-  <section class="section" aria-labelledby="why-title">
-    <div class="section-head">
-      <h2 id="why-title">The Star</h2>
-      <p>Tiger Force’s name for the standard it asks clients to judge: know the site, train the person, stay after deployment. <a href="/why-tiger-force">Read the case</a>.</p>
+  <section class="supervision">
+    <div class="section-heading">
+      <p class="eyebrow" data-reveal>Supervision</p>
+      <h2 data-reveal style="--d:1">How every post is kept</h2>
+      <p data-reveal style="--d:2">
+        Every guard is vetted and verified by the police before deployment. After that, the schedule below runs at
+        every site.
+      </p>
+    </div>
+    <ul class="metrics">
+      {supervision.map((item, index) => (
+        <li data-reveal style={`--d:${index}`}>
+          <span class="metric-value"><b data-count={item.value}>{item.value}</b></span>
+          <span class="metric-unit">{item.unit}</span>
+          <span class="metric-label">{item.label}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="leader">
+    <div class="leader-inner">
+      <blockquote data-reveal>
+        <p>
+          We take pride in the welfare of our personnel and always pay them on time. Our security personnel are our
+          strength.
+        </p>
+        <footer>
+          <strong>Col K. K. Nanda (Retd)</strong>
+          Managing Director
+        </footer>
+      </blockquote>
+      <ul class="leader-facts">
+        <li data-reveal style="--d:1"><b>32 years</b> in the Indian Army</li>
+        <li data-reveal style="--d:2"><b>Instructor</b> at the National Defence Academy</li>
+        <li data-reveal style="--d:3"><b>Commanded</b> an infantry battalion</li>
+        <li data-reveal style="--d:4"><b>Organised</b> security for Mr Bill Gates</li>
+      </ul>
+      <div class="leader-links" data-reveal style="--d:5">
+        <a class="btn btn-navy" href="/mds-profile">MD’s profile</a>
+        <a class="link-arrow" href="/mds-message">Read the MD’s message</a>
+      </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="sectors-title">
-    <div class="section-head">
-      <h2 id="sectors-title">Sectors</h2>
-      <p>The same three divisions, written differently for each kind of site.</p>
+  <section class="clients-band">
+    <div class="section-heading">
+      <p class="eyebrow" data-reveal>Clients</p>
+      <h2 data-reveal style="--d:1">Trusted by government and industry</h2>
     </div>
-    <ul class="sector-grid">
+    <ul class="sector-chips" data-reveal style="--d:2">
       {sectors.map((sector) => <li>{sector}</li>)}
     </ul>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {[...rowA, ...rowA].map((src) => <img src={src} alt="" loading="lazy" />)}
+      </div>
+    </div>
+    <div class="marquee is-reverse" aria-hidden="true">
+      <div class="marquee-track">
+        {[...rowB, ...rowB].map((src) => <img src={src} alt="" loading="lazy" />)}
+      </div>
+    </div>
+    <p class="center" data-reveal><a class="link-arrow" href="/clients">See the full client list</a></p>
   </section>
 
-  <section class="section" aria-labelledby="clients-title">
-    <div class="section-head">
-      <h2 id="clients-title">On the roster</h2>
-      <p>Government desks and private floors. <a href="/clients">The full client list</a>.</p>
+  <section class="gallery-band">
+    <div class="section-heading is-light">
+      <p class="eyebrow" data-reveal>Gallery</p>
+      <h2 data-reveal style="--d:1">On duty</h2>
     </div>
-  </section>
-  <div class="logo-rail" aria-hidden="true">
-    <div class="logo-track">
-      {rail.map((src) => <img src={src} alt="" />)}
+    <div class="mosaic">
+      {gallery.map((shot, index) => (
+        <a class="mosaic-item" href="/gallery" data-reveal="wipe" style={`--d:${index}`}>
+          <img src={shot.src} alt={shot.alt} loading="lazy" />
+          <span>{shot.label}</span>
+        </a>
+      ))}
     </div>
-  </div>
-  <section class="section">
-    <ul class="name-grid">
-      {clientsNamed.slice(0, 8).map((name) => <li>{name}</li>)}
-    </ul>
   </section>
 
-  <section class="section" aria-labelledby="gallery-title">
-    <div class="section-head">
-      <h2 id="gallery-title">From the ground</h2>
-      <p><a href="/gallery">Open the gallery</a></p>
-    </div>
-    <div class="gallery-tease">
-      <div class="frame"><img src="/media/gallery/picture-212.jpg" alt="Event security escorting guests." /></div>
-      <div class="frame"><img src="/media/gallery/picture-12.jpg" alt="A firefighting drill." /></div>
-      <div class="frame"><img src="/media/gallery/wa.jpg" alt="A briefing beside trucks at a logistics yard." /></div>
+  <section class="cta">
+    <div class="cta-inner">
+      <div>
+        <h2 data-reveal>Request a site survey</h2>
+        <p data-reveal style="--d:1">
+          We survey your premises and send a written report with our recommendations before anyone is deployed.
+        </p>
+      </div>
+      <div class="cta-actions" data-reveal style="--d:2">
+        <a class="btn btn-navy" href="/contact">Contact us</a>
+        <a class="cta-phone" href={`tel:+91${site.phones[0]}`}>{site.phones[0]}</a>
+      </div>
     </div>
   </section>
 </Base>
+
+<script>
+  function bindScene() {
+    const scene = document.querySelector<HTMLElement>('[data-scene]');
+    if (!scene || scene.dataset.bound) return;
+    scene.dataset.bound = 'true';
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const rect = scene.getBoundingClientRect();
+      const travel = scene.offsetHeight - window.innerHeight;
+      const progress = travel > 0 ? Math.min(1, Math.max(0, -rect.top / travel)) : 0;
+      scene.style.setProperty('--p', progress.toFixed(4));
+      scene.classList.toggle('is-split', progress > 0.35);
+    };
+    const request = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
+    document.addEventListener('astro:before-swap', () => {
+      window.removeEventListener('scroll', request);
+      window.removeEventListener('resize', request);
+    }, { once: true });
+  }
+
+  function bindDivisions() {
+    const wrap = document.querySelector<HTMLElement>('[data-divisions]');
+    if (!wrap || wrap.dataset.bound) return;
+    wrap.dataset.bound = 'true';
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) wrap.dataset.tone = (entry.target as HTMLElement).dataset.division;
+        });
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    );
+    wrap.querySelectorAll('[data-division]').forEach((node) => observer.observe(node));
+    wrap.dataset.tone = 'security';
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    bindScene();
+    bindDivisions();
+  });
+</script>

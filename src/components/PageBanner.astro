@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  lede?: string;
+  trail?: string;
+  current: string;
+  tone?: string;
+}
+
+const { title, lede, trail, current, tone = 'group' } = Astro.props;
+const crests: Record<string, string> = {
+  group: '/media/crest/group.png',
+  security: '/media/crest/security.png',
+  housekeeping: '/media/crest/housekeeping.png',
+  manpower: '/media/crest/manpower.png',
+};
+const crest = crests[tone] ?? crests.group;
+---
+
+<header class={`banner tone-${tone}`}>
+  <div class="banner-inner">
+    <div class="banner-copy">
+      <ol class="crumbs">
+        <li><a href="/">Home</a></li>
+        {trail && <li>{trail}</li>}
+        <li aria-current="page">{current}</li>
+      </ol>
+      <h1 class="banner-title">{title}</h1>
+      {lede && <p class="banner-lede">{lede}</p>}
+    </div>
+    <img class="banner-crest" src={crest} alt="" />
+  </div>
+</header>

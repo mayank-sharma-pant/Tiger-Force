@@ -1,30 +1,28 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
 import Lightbox from '../components/Lightbox.astro';
 
 const shots = [
-  { src: '/media/gallery/picture-1.jpg', alt: 'Tiger Force guards assembled outdoors for parade.' },
-  { src: '/media/gallery/wa.jpg', alt: 'A briefing beside trucks at a logistics yard.' },
-  { src: '/media/gallery/picture-12.jpg', alt: 'A firefighting drill during training.' },
-  { src: '/media/gallery/picture-19.jpg', alt: 'Guards posted at an exhibition stand.' },
-  { src: '/media/gallery/picture-212.jpg', alt: 'Event security escorting guests.' },
-  { src: '/media/gallery/picture-20.jpg', alt: 'Tiger Force staff at a reception desk.' },
-  { src: '/media/hero.jpg', alt: 'Tiger Force guards in ceremonial uniform.' },
-  { src: '/media/gallery/banner.jpg', alt: 'Tiger Force gallery photograph.' },
+  { src: '/media/gallery/picture-1.jpg', alt: 'Tiger Force guards assembled for parade.', label: 'Morning parade' },
+  { src: '/media/gallery/wa.jpg', alt: 'A briefing at a logistics yard.', label: 'Warehouse briefing' },
+  { src: '/media/gallery/picture-12.jpg', alt: 'A firefighting drill during training.', label: 'Fire drill' },
+  { src: '/media/gallery/picture-19.jpg', alt: 'Guards posted at an exhibition stand.', label: 'Exhibition duty' },
+  { src: '/media/gallery/picture-212.jpg', alt: 'Event security escorting guests.', label: 'Event security' },
+  { src: '/media/gallery/picture-20.jpg', alt: 'Tiger Force staff at a reception desk.', label: 'Control desk' },
+  { src: '/media/hero.jpg', alt: 'Tiger Force guards in uniform.', label: 'Uniformed guards' },
+  { src: '/media/housekeeping-2.jpg', alt: 'A housekeeper preparing a hotel room.', label: 'Hotel housekeeping' },
 ];
 ---
 
-<Base title="Gallery" description="Photographs from Tiger Force Group sites and teams.">
-  <header class="page-hero">
-    <p class="kicker">Gallery</p>
-    <h1>The work, photographed.</h1>
-    <p class="lede">Frames from the current Tiger Force archive. Open any photograph to see it larger.</p>
-  </header>
-  <div class="sheet-wrap">
-    <div class="media-grid">
-      {shots.map((shot) => (
-        <button type="button" data-full={shot.src} data-alt={shot.alt}>
-          <img src={shot.src} alt={shot.alt} />
+<Base title="Gallery" description="Photographs of Tiger Force Group teams on duty.">
+  <PageBanner title="Gallery" lede="Tiger Force teams on duty: training, events, warehouses and front desks." current="Gallery" />
+  <div class="page-wide">
+    <div class="photo-grid">
+      {shots.map((shot, index) => (
+        <button type="button" class="photo" data-full={shot.src} data-alt={shot.alt} data-reveal="wipe" style={`--d:${index % 3}`}>
+          <img src={shot.src} alt={shot.alt} loading="lazy" />
+          <span>{shot.label}</span>
         </button>
       ))}
     </div>

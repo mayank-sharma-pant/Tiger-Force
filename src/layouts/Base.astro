@@ -10,68 +10,122 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const fullTitle = title === 'Tiger Force Group' ? title : `${title} · Tiger Force Group`;
+const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Force Group`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:animate="none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#020e2a" />
     <link rel="icon" href="/media/logo-wide.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Open+Sans:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <ClientRouter />
   </head>
   <body>
-    <div class="gold-rule" aria-hidden="true"></div>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
+    <div class="shutter" aria-hidden="true" transition:persist="shutter">
+      <img src="/media/crest/group.png" alt="" width="140" />
+    </div>
     <script>
-      const arm = () => {
-        document.documentElement.classList.remove('is-entered');
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => document.documentElement.classList.add('is-entered'));
-        });
-      };
+      const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const shutter = () => document.querySelector<HTMLElement>('.shutter');
 
-      const watchFrames = () => {
-        const frames = document.querySelectorAll('.frame');
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          frames.forEach((frame) => frame.classList.add('is-in'));
+      function play(el: HTMLElement, keyframes: Keyframe[], duration: number) {
+        return el.animate(keyframes, { duration, easing: 'cubic-bezier(0.76, 0, 0.24, 1)', fill: 'forwards' }).finished;
+      }
+
+      document.addEventListener('astro:before-preparation', (event) => {
+        const el = shutter();
+        if (!el || reduced()) return;
+        const original = event.loader;
+        event.loader = async () => {
+          el.classList.add('is-active');
+          await Promise.all([
+            original(),
+            play(el, [{ clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], 520),
+          ]);
+        };
+      });
+
+      document.addEventListener('astro:after-swap', () => {
+        const el = shutter();
+        if (!el || !el.classList.contains('is-active')) return;
+        window.scrollTo(0, 0);
+        play(el, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 100% 0)' }], 620).then(() => {
+          el.classList.remove('is-active');
+          el.getAnimations().forEach((animation) => animation.cancel());
+        });
+      });
+
+      function reveal() {
+        const nodes = document.querySelectorAll('[data-reveal]:not(.is-in)');
+        if (reduced()) {
+          nodes.forEach((node) => node.classList.add('is-in'));
           return;
         }
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-in');
-                observer.unobserve(entry.target);
-              }
+              if (!entry.isIntersecting) return;
+              const el = entry.target as HTMLElement;
+              el.classList.add('is-in');
+              observer.unobserve(el);
+              window.setTimeout(() => el.style.setProperty('--d', '0'), 1800);
             });
           },
-          { threshold: 0.25 },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
         );
-        frames.forEach((frame) => observer.observe(frame));
-      };
+        nodes.forEach((node) => observer.observe(node));
+      }
 
-      const boot = () => {
-        arm();
-        watchFrames();
-      };
+      function counters() {
+        const nodes = document.querySelectorAll<HTMLElement>('[data-count]');
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target as HTMLElement;
+              observer.unobserve(el);
+              const target = Number(el.dataset.count);
+              if (reduced()) {
+                el.textContent = String(target);
+                return;
+              }
+              const start = performance.now();
+              const tick = (now: number) => {
+                const t = Math.min(1, (now - start) / 1400);
+                el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
+                if (t < 1) requestAnimationFrame(tick);
+              };
+              requestAnimationFrame(tick);
+            });
+          },
+          { threshold: 0.6 },
+        );
+        nodes.forEach((node) => observer.observe(node));
+      }
 
-      boot();
-      document.addEventListener('astro:page-load', boot);
+      document.addEventListener('astro:page-load', () => {
+        document.documentElement.classList.remove('is-ready');
+        requestAnimationFrame(() => document.documentElement.classList.add('is-ready'));
+        reveal();
+        counters();
+      });
     </script>
   </body>
 </html>

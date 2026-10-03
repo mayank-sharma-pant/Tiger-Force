@@ -1,25 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
 import Lightbox from '../components/Lightbox.astro';
 
 const docs = [
-  { src: '/media/docs/document-1.jpg', alt: 'Tiger Force document scan 1.' },
-  { src: '/media/docs/document-2.jpg', alt: 'Tiger Force document scan 2.' },
-  { src: '/media/docs/document-3.jpg', alt: 'Tiger Force document scan 3.' },
+  { src: '/media/docs/document-1.jpg', alt: 'Tiger Force document 1.' },
+  { src: '/media/docs/document-2.jpg', alt: 'Tiger Force document 2.' },
+  { src: '/media/docs/document-3.jpg', alt: 'Tiger Force document 3.' },
 ];
 ---
 
-<Base title="Documents" description="Document scans published by Tiger Force Group.">
-  <header class="page-hero">
-    <p class="kicker">Documents</p>
-    <h1>Papers on the record.</h1>
-    <p class="lede">The scans published on the current site. Open one to read it larger.</p>
-  </header>
-  <div class="sheet-wrap">
-    <div class="docs-grid">
-      {docs.map((doc) => (
-        <button type="button" data-full={doc.src} data-alt={doc.alt}>
-          <img src={doc.src} alt={doc.alt} />
+<Base title="Documents" description="Registrations and documents published by Tiger Force Group.">
+  <PageBanner title="Documents" lede="Registrations and certificates. Select a document to view it full size." current="Documents" />
+  <div class="page-wide">
+    <div class="doc-grid">
+      {docs.map((doc, index) => (
+        <button type="button" class="doc" data-full={doc.src} data-alt={doc.alt} data-reveal style={`--d:${index}`}>
+          <img src={doc.src} alt={doc.alt} loading="lazy" />
+          <span>View full size</span>
         </button>
       ))}
     </div>
