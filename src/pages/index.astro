@@ -67,8 +67,6 @@ const supervision = [
 ];
 
 const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
-const rowA = logos.slice(0, 20);
-const rowB = logos.slice(20);
 
 const gallery = [
   { src: '/media/gallery/picture-212.jpg', alt: 'Event security escorting guests at an exhibition.', label: 'Event security' },
@@ -98,7 +96,8 @@ const gallery = [
         </div>
         <div class="crest-title">
           <h1><span class="line">Tiger Force</span> <span class="line accent">Group</span></h1>
-          <p>Security <i></i> Housekeeping <i></i> Manpower</p>
+          <p>Security, housekeeping and manpower</p>
+          <p class="crest-facts">DGR registered <i></i> PSARA licensed <i></i> ISO certified</p>
         </div>
       </div>
 
@@ -113,41 +112,37 @@ const gallery = [
         ))}
       </div>
 
+      <img class="stage-guards" src="/media/guards.png" alt="" width="1600" height="571" />
       <div class="scroll-cue" aria-hidden="true"><span></span>Scroll</div>
     </div>
   </section>
 
   <section class="intro">
-    <div class="intro-copy">
-      <p class="eyebrow" data-reveal>About Tiger Force Group</p>
-      <h2 data-reveal style="--d:1">
-        Two decades of keeping India’s institutions <mark>secure</mark>, clean and staffed.
-      </h2>
-      <p data-reveal style="--d:2">
+    <p class="eyebrow">Registered with the Ministry of Defence</p>
+    <h2>Two decades of keeping India’s institutions secure, clean and staffed.</h2>
+    <div class="intro-foot">
+      <p>
         Tiger Force Group is a licensed company registered with the Directorate General Resettlement, Ministry of
         Defence, New Delhi. Its people serve government offices, universities, hospitals, five-star hotels,
         factories, warehouses and residential complexes.
       </p>
-      <ul class="badges" data-reveal style="--d:3">
-        <li><strong>DGR</strong> Ministry of Defence registration</li>
-        <li><strong>PSARA</strong> Licences for various states</li>
-        <li><strong>ISO</strong> Certified processes</li>
-      </ul>
-      <a class="btn btn-navy" href="/brief-profile" data-reveal style="--d:4">Read our profile</a>
-    </div>
-    <div class="intro-visual" data-reveal="rise">
-      <img src="/media/guards.png" alt="Six Tiger Force guards in uniform." width="1600" height="571" loading="lazy" />
+      <div>
+        <ul class="badges">
+          <li><strong>DGR</strong> Ministry of Defence registration</li>
+          <li><strong>PSARA</strong> Licences for various states</li>
+          <li><strong>ISO</strong> Certified processes</li>
+        </ul>
+        <a class="btn btn-navy" href="/brief-profile">Read our profile</a>
+      </div>
     </div>
   </section>
 
   <section class="divisions" data-divisions aria-label="Our three divisions">
     {divisions.map((division) => (
       <article class={`division is-${division.key}`} data-division={division.key}>
-        <div class="division-crest" data-reveal="pop">
-          <img src={division.crest} alt={`${division.name} crest`} width="445" height="388" loading="lazy" />
-        </div>
         <div class="division-body">
-          <h2 data-reveal>{division.name}</h2>
+          <img class="division-crest" src={division.crest} alt="" width="120" height="104" loading="lazy" />
+          <h2>{division.name}</h2>
           <p data-reveal style="--d:1">{division.intro}</p>
           <ul class="service-list">
             {division.services.map((service, index) => (
@@ -215,20 +210,15 @@ const gallery = [
       <p class="eyebrow" data-reveal>Clients</p>
       <h2 data-reveal style="--d:1">Trusted by government and industry</h2>
     </div>
-    <ul class="sector-chips" data-reveal style="--d:2">
+    <ul class="sector-chips">
       {sectors.map((sector) => <li>{sector}</li>)}
     </ul>
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        {[...rowA, ...rowA].map((src) => <img src={src} alt="" loading="lazy" />)}
-      </div>
+    <div class="logo-grid home-logos">
+      {logos.slice(0, 18).map((src) => (
+        <div class="logo-cell"><img src={src} alt="" loading="lazy" /></div>
+      ))}
     </div>
-    <div class="marquee is-reverse" aria-hidden="true">
-      <div class="marquee-track">
-        {[...rowB, ...rowB].map((src) => <img src={src} alt="" loading="lazy" />)}
-      </div>
-    </div>
-    <p class="center" data-reveal><a class="link-arrow" href="/clients">See the full client list</a></p>
+    <p class="center"><a class="link-arrow" href="/clients">See the full client list</a></p>
   </section>
 
   <section class="gallery-band">

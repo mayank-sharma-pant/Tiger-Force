@@ -20,12 +20,12 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#020e2a" />
+    <meta name="theme-color" content="#f6f5f2" />
     <link rel="icon" href="/media/logo-wide.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Open+Sans:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Schibsted+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap"
       rel="stylesheet"
     />
     <script is:inline>document.documentElement.classList.add('js');</script>
@@ -38,93 +38,10 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
       <slot />
     </main>
     <Footer />
-    <div class="shutter" aria-hidden="true" transition:persist="shutter">
-      <img src="/media/crest/group.png" alt="" width="140" />
-    </div>
     <script>
-      const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const shutter = () => document.querySelector<HTMLElement>('.shutter');
-
-      function play(el: HTMLElement, keyframes: Keyframe[], duration: number) {
-        return el.animate(keyframes, { duration, easing: 'cubic-bezier(0.76, 0, 0.24, 1)', fill: 'forwards' }).finished;
-      }
-
-      document.addEventListener('astro:before-preparation', (event) => {
-        const el = shutter();
-        if (!el || reduced()) return;
-        const original = event.loader;
-        event.loader = async () => {
-          el.classList.add('is-active');
-          await Promise.all([
-            original(),
-            play(el, [{ clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], 520),
-          ]);
-        };
-      });
-
-      document.addEventListener('astro:after-swap', () => {
-        const el = shutter();
-        if (!el || !el.classList.contains('is-active')) return;
-        window.scrollTo(0, 0);
-        play(el, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 100% 0)' }], 620).then(() => {
-          el.classList.remove('is-active');
-          el.getAnimations().forEach((animation) => animation.cancel());
-        });
-      });
-
-      function reveal() {
-        const nodes = document.querySelectorAll('[data-reveal]:not(.is-in)');
-        if (reduced()) {
-          nodes.forEach((node) => node.classList.add('is-in'));
-          return;
-        }
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              const el = entry.target as HTMLElement;
-              el.classList.add('is-in');
-              observer.unobserve(el);
-              window.setTimeout(() => el.style.setProperty('--d', '0'), 1800);
-            });
-          },
-          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
-        );
-        nodes.forEach((node) => observer.observe(node));
-      }
-
-      function counters() {
-        const nodes = document.querySelectorAll<HTMLElement>('[data-count]');
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              const el = entry.target as HTMLElement;
-              observer.unobserve(el);
-              const target = Number(el.dataset.count);
-              if (reduced()) {
-                el.textContent = String(target);
-                return;
-              }
-              const start = performance.now();
-              const tick = (now: number) => {
-                const t = Math.min(1, (now - start) / 1400);
-                el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
-                if (t < 1) requestAnimationFrame(tick);
-              };
-              requestAnimationFrame(tick);
-            });
-          },
-          { threshold: 0.6 },
-        );
-        nodes.forEach((node) => observer.observe(node));
-      }
-
       document.addEventListener('astro:page-load', () => {
         document.documentElement.classList.remove('is-ready');
         requestAnimationFrame(() => document.documentElement.classList.add('is-ready'));
-        reveal();
-        counters();
       });
     </script>
   </body>
