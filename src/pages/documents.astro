@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Lightbox from '../components/Lightbox.astro';
+
+const docs = [
+  { src: '/media/docs/document-1.jpg', alt: 'Tiger Force document scan 1.' },
+  { src: '/media/docs/document-2.jpg', alt: 'Tiger Force document scan 2.' },
+  { src: '/media/docs/document-3.jpg', alt: 'Tiger Force document scan 3.' },
+];
+---
+
+<Base title="Documents" description="Document scans published by Tiger Force Group.">
+  <header class="page-hero">
+    <p class="kicker">Documents</p>
+    <h1>Papers on the record.</h1>
+    <p class="lede">The scans published on the current site. Open one to read it larger.</p>
+  </header>
+  <div class="sheet-wrap">
+    <div class="docs-grid">
+      {docs.map((doc) => (
+        <button type="button" data-full={doc.src} data-alt={doc.alt}>
+          <img src={doc.src} alt={doc.alt} />
+        </button>
+      ))}
+    </div>
+  </div>
+  <Lightbox />
+</Base>

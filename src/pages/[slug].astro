@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import { articles } from '../data/site';
+
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+---
+
+<Base title={article.kicker} description={article.description}>
+  <header class="page-hero">
+    <p class="kicker">{article.kicker}</p>
+    <h1>{article.title}</h1>
+    <p class="lede">{article.lede}</p>
+  </header>
+  <div class="sheet-wrap">
+    <article class="sheet">
+      {article.image && (
+        <div class="frame is-in">
+          <img src={article.image} alt={article.imageAlt || ''} />
+        </div>
+      )}
+      {article.sections.map((section) => (
+        <section>
+          {section.heading && <h2>{section.heading}</h2>}
+          {section.blocks.map((block) => {
+            if (block.kind === 'prose') {
+              return block.paragraphs.map((paragraph) => <p>{paragraph}</p>);
+            }
+            if (block.kind === 'list') {
+              return (
+                <ul class="list">
+                  {block.items.map((item) => <li>{item}</li>)}
+                </ul>
+              );
+            }
+            return (
+              <dl class="defs">
+                {block.items.map((item) => (
+                  <div>
+                    <dt>{item.title}</dt>
+                    <dd>{item.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            );
+          })}
+        </section>
+      ))}
+      {article.slug === 'eds-profile' && (
+        <p><a class="sheet-link" href="/mds-profile">Read the MD’s profile</a></p>
+      )}
+    </article>
+  </div>
+</Base>

@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { clientsNamed, sectors } from '../data/site';
+
+const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
+---
+
+<Base
+  title="Clients"
+  description="Organisations served by Tiger Force Group across government, healthcare, hospitality, retail, and industry."
+>
+  <header class="page-hero">
+    <p class="kicker">Clients</p>
+    <h1>Names the work has to live up to.</h1>
+    <p class="lede">Government institutes, hospitals, hotels, and industry. Marks below are the logos published on the current Tiger Force site.</p>
+  </header>
+  <div class="sheet-wrap">
+    <div class="sheet">
+      <div class="client-board">
+        {logos.map((src, index) => (
+          <img src={src} alt={`Client mark ${index + 1} from the Tiger Force client archive.`} />
+        ))}
+      </div>
+      <h2>Named in the company record</h2>
+      <ul class="list">
+        {clientsNamed.map((name) => <li>{name}</li>)}
+      </ul>
+      <h2>Sectors</h2>
+      <ul class="list">
+        {sectors.map((sector) => <li>{sector}</li>)}
+      </ul>
+    </div>
+  </div>
+</Base>

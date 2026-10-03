@@ -1,0 +1,77 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const fullTitle = title === 'Tiger Force Group' ? title : `${title} · Tiger Force Group`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/media/logo-wide.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <ClientRouter />
+  </head>
+  <body>
+    <div class="gold-rule" aria-hidden="true"></div>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      const arm = () => {
+        document.documentElement.classList.remove('is-entered');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => document.documentElement.classList.add('is-entered'));
+        });
+      };
+
+      const watchFrames = () => {
+        const frames = document.querySelectorAll('.frame');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          frames.forEach((frame) => frame.classList.add('is-in'));
+          return;
+        }
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-in');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.25 },
+        );
+        frames.forEach((frame) => observer.observe(frame));
+      };
+
+      const boot = () => {
+        arm();
+        watchFrames();
+      };
+
+      boot();
+      document.addEventListener('astro:page-load', boot);
+    </script>
+  </body>
+</html>

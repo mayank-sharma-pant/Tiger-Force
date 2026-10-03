@@ -1,0 +1,133 @@
+---
+import Base from '../layouts/Base.astro';
+import { clientsNamed, sectors } from '../data/site';
+
+const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
+const rail = [...logos, ...logos];
+---
+
+<Base
+  title="Tiger Force Group"
+  description="Licensed security, housekeeping, and manpower for government offices, hospitals, hotels, and industry. Registered with the Directorate General Resettlement. Led by Col K. K. Nanda (Retd)."
+>
+  <section class="hero">
+    <div class="hero-media">
+      <img src="/media/gallery/picture-1.jpg" alt="Tiger Force guards assembled outdoors for parade." />
+    </div>
+    <div class="hero-copy">
+      <p class="kicker">DGR registered · PSARA · ISO</p>
+      <h1>
+        <span>On post,</span>
+        <span>on standard.</span>
+      </h1>
+      <p class="lede">
+        Licensed security, housekeeping, and manpower for government offices, hospitals, hotels, and industry.
+        Registered with the Directorate General Resettlement. Led by Col K. K. Nanda (Retd).
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="/contact">Write to the desk</a>
+        <a class="btn btn-ghost" href="/security">Security services</a>
+      </div>
+    </div>
+    <p class="stamp">Two decades</p>
+  </section>
+
+  <section class="duty" aria-label="Standing facts">
+    <p><span>01</span> Directorate General Resettlement, Ministry of Defence</p>
+    <p><span>02</span> PSARA licences for various states, with ISO certification</p>
+    <p><span>03</span> Col K. K. Nanda (Retd), 32 years in the Indian Army</p>
+  </section>
+
+  <section class="section" aria-labelledby="divisions-title">
+    <div class="section-head">
+      <h2 id="divisions-title">Three divisions</h2>
+      <p>One company. Security, housekeeping, and manpower, each with its own lead and the same supervision after deployment.</p>
+    </div>
+  </section>
+
+  <a class="division" href="/security">
+    <div class="division-copy">
+      <div>
+        <div class="division-index">01</div>
+        <h3>Security</h3>
+        <p>Uniformed guarding, events, audit, VIP cover, investigations, and night patrol. Briefed before the shift. Checked after dark.</p>
+      </div>
+      <span class="division-go">Open security</span>
+    </div>
+    <div class="frame">
+      <img src="/media/gallery/wa.jpg" alt="A briefing beside trucks at a logistics yard." />
+    </div>
+  </a>
+  <a class="division" href="/housekeeping">
+    <div class="frame">
+      <img src="/media/housekeeping-2.jpg" alt="Hotel room housekeeping." />
+    </div>
+    <div class="division-copy">
+      <div>
+        <div class="division-index">02</div>
+        <h3>Housekeeping</h3>
+        <p>Offices, hospitals, hotels, factories, and public areas. The chemical is matched to the surface. A relationship manager stays on the account.</p>
+      </div>
+      <span class="division-go">Open housekeeping</span>
+    </div>
+  </a>
+  <a class="division" href="/manpower">
+    <div class="division-copy">
+      <div>
+        <div class="division-index">03</div>
+        <h3>Manpower</h3>
+        <p>Reception, food and beverage, IT desk, back office, and call centre staff. The wing is headed by Mr Aditya Nanda.</p>
+      </div>
+      <span class="division-go">Open manpower</span>
+    </div>
+    <div class="frame">
+      <img src="/media/gallery/picture-20.jpg" alt="Tiger Force staff at a reception desk." />
+    </div>
+  </a>
+
+  <section class="section" aria-labelledby="why-title">
+    <div class="section-head">
+      <h2 id="why-title">The Star</h2>
+      <p>Tiger Force’s name for the standard it asks clients to judge: know the site, train the person, stay after deployment. <a href="/why-tiger-force">Read the case</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="sectors-title">
+    <div class="section-head">
+      <h2 id="sectors-title">Sectors</h2>
+      <p>The same three divisions, written differently for each kind of site.</p>
+    </div>
+    <ul class="sector-grid">
+      {sectors.map((sector) => <li>{sector}</li>)}
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="clients-title">
+    <div class="section-head">
+      <h2 id="clients-title">On the roster</h2>
+      <p>Government desks and private floors. <a href="/clients">The full client list</a>.</p>
+    </div>
+  </section>
+  <div class="logo-rail" aria-hidden="true">
+    <div class="logo-track">
+      {rail.map((src) => <img src={src} alt="" />)}
+    </div>
+  </div>
+  <section class="section">
+    <ul class="name-grid">
+      {clientsNamed.slice(0, 8).map((name) => <li>{name}</li>)}
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="gallery-title">
+    <div class="section-head">
+      <h2 id="gallery-title">From the ground</h2>
+      <p><a href="/gallery">Open the gallery</a></p>
+    </div>
+    <div class="gallery-tease">
+      <div class="frame"><img src="/media/gallery/picture-212.jpg" alt="Event security escorting guests." /></div>
+      <div class="frame"><img src="/media/gallery/picture-12.jpg" alt="A firefighting drill." /></div>
+      <div class="frame"><img src="/media/gallery/wa.jpg" alt="A briefing beside trucks at a logistics yard." /></div>
+    </div>
+  </section>
+</Base>

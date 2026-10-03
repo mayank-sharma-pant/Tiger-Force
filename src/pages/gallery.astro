@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Lightbox from '../components/Lightbox.astro';
+
+const shots = [
+  { src: '/media/gallery/picture-1.jpg', alt: 'Tiger Force guards assembled outdoors for parade.' },
+  { src: '/media/gallery/wa.jpg', alt: 'A briefing beside trucks at a logistics yard.' },
+  { src: '/media/gallery/picture-12.jpg', alt: 'A firefighting drill during training.' },
+  { src: '/media/gallery/picture-19.jpg', alt: 'Guards posted at an exhibition stand.' },
+  { src: '/media/gallery/picture-212.jpg', alt: 'Event security escorting guests.' },
+  { src: '/media/gallery/picture-20.jpg', alt: 'Tiger Force staff at a reception desk.' },
+  { src: '/media/hero.jpg', alt: 'Tiger Force guards in ceremonial uniform.' },
+  { src: '/media/gallery/banner.jpg', alt: 'Tiger Force gallery photograph.' },
+];
+---
+
+<Base title="Gallery" description="Photographs from Tiger Force Group sites and teams.">
+  <header class="page-hero">
+    <p class="kicker">Gallery</p>
+    <h1>The work, photographed.</h1>
+    <p class="lede">Frames from the current Tiger Force archive. Open any photograph to see it larger.</p>
+  </header>
+  <div class="sheet-wrap">
+    <div class="media-grid">
+      {shots.map((shot) => (
+        <button type="button" data-full={shot.src} data-alt={shot.alt}>
+          <img src={shot.src} alt={shot.alt} />
+        </button>
+      ))}
+    </div>
+  </div>
+  <Lightbox />
+</Base>

@@ -1,0 +1,43 @@
+---
+import { aboutLinks, sectors, serviceLinks, site } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div>
+    <h2>Tiger Force</h2>
+    <p>Security, housekeeping, and manpower. Licensed and registered. Registered with the Directorate General Resettlement, Ministry of Defence, New Delhi.</p>
+  </div>
+  <div>
+    <h2>Services</h2>
+    <ul>
+      {serviceLinks.map((link) => (
+        <li><a href={link.href}>{link.label}</a></li>
+      ))}
+    </ul>
+  </div>
+  <div>
+    <h2>Company</h2>
+    <ul>
+      {aboutLinks.slice(0, 5).map((link) => (
+        <li><a href={link.href}>{link.label}</a></li>
+      ))}
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="/documents">Documents</a></li>
+    </ul>
+  </div>
+  <div>
+    <h2>Desk</h2>
+    <p>{site.offices[0].line}</p>
+    <p>{site.offices[1].line}</p>
+    <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+    <p><a href={`mailto:${site.emailAlt}`}>{site.emailAlt}</a></p>
+    {site.phones.map((phone) => (
+      <p><a href={`tel:${phone}`}>{phone}</a></p>
+    ))}
+  </div>
+  <p class="legal">
+    Sectors: {sectors.join(' · ')}
+    <br />
+    © {new Date().getFullYear()} Tiger Force Group
+  </p>
+</footer>
