@@ -36,6 +36,7 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
+    <div class="page-rule" aria-hidden="true"></div>
     <Header />
     <main id="main">
       <slot />
@@ -51,6 +52,7 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const shut = 'polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%)';
       const open = 'polygon(0% 0%, 130% 0%, 100% 100%, -30% 100%)';
+      let ruling = false;
       let lenis: Lenis | undefined;
       let ctx: gsap.Context | undefined;
       let ticker: ((time: number) => void) | undefined;
@@ -66,14 +68,31 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
         const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
         tl.from(hero.querySelector('.hero-panels'), {
           clipPath: 'inset(0% 100% 0% 0%)',
-          duration: 1.1,
+          duration: 1.35,
           ease: 'expo.inOut',
         })
-          .from(hero.querySelectorAll('.hero-panel'), { clipPath: 'inset(0% 100% 0% 0%)', duration: 1.2, stagger: 0.1 }, 0.55)
-          .from(hero.querySelectorAll('.hero-panel img'), { scale: 1.25, duration: 1.8, stagger: 0.1 }, 0.55)
-          .from(hero.querySelectorAll('.hero-panel-label'), { autoAlpha: 0, x: -12, duration: 0.8, stagger: 0.1 }, 1.2)
-          .from(hero.querySelectorAll('.hero-line > span'), { yPercent: 110, duration: 1.1, stagger: 0.07 }, 0.3)
-          .from(hero.querySelectorAll('[data-intro-fade]'), { autoAlpha: 0, y: 18, duration: 0.9, stagger: 0.08 }, 0.75);
+          .from(
+            hero.querySelectorAll('.hero-panel'),
+            { clipPath: 'inset(0% 100% 0% 0%)', duration: 1.45, stagger: 0.14, ease: 'expo.inOut' },
+            0.45,
+          )
+          .from(hero.querySelectorAll('.hero-panel img'), { scale: 1.14, duration: 2.4, stagger: 0.14 }, 0.55)
+          .from(hero.querySelectorAll('.hero-panel-label'), { autoAlpha: 0, y: 10, duration: 0.9, stagger: 0.12 }, 1.45)
+          .from(hero.querySelectorAll('.hero-line > span'), { yPercent: 115, duration: 1.25, stagger: 0.09 }, 0.2)
+          .from(hero.querySelectorAll('[data-intro-fade]'), { autoAlpha: 0, y: 14, duration: 1.05, stagger: 0.1 }, 0.95);
+      }
+
+      function sweepRule(out: boolean) {
+        const rule = document.querySelector<HTMLElement>('.page-rule');
+        if (!rule || reduce) return;
+        if (out) ruling = true;
+        else if (!ruling) return;
+        else ruling = false;
+        gsap.fromTo(
+          rule,
+          { scaleX: out ? 0 : 1, transformOrigin: out ? 'left center' : 'right center' },
+          { scaleX: out ? 1 : 0, duration: out ? 0.55 : 0.7, ease: 'power3.inOut', overwrite: true },
+        );
       }
 
       function bindMotion() {
@@ -87,38 +106,92 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
         });
         if (reduce) return;
 
-        lenis = new Lenis({ lerp: 0.14, smoothWheel: true });
+        lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
         lenis.on('scroll', ScrollTrigger.update);
         ticker = (time) => lenis?.raf(time * 1000);
         gsap.ticker.add(ticker);
         gsap.ticker.lagSmoothing(0);
 
         ctx = gsap.context(() => {
-          const hero = document.querySelector<HTMLElement>('[data-intro]');
-          if (hero) heroIntro(hero);
+          const rule = document.querySelector<HTMLElement>('.page-rule');
+          if (rule) {
+            ScrollTrigger.create({
+              start: 0,
+              end: 'max',
+              onUpdate: (self) => {
+                if (ruling) return;
+                gsap.set(rule, { scaleX: self.progress, transformOrigin: 'left center' });
+              },
+            });
+          }
 
-          const rise = gsap.utils.toArray<HTMLElement>('[data-reveal]:not([data-reveal="wipe"])');
-          gsap.set(rise, { autoAlpha: 0, y: 28 });
+          const hero = document.querySelector<HTMLElement>('[data-intro]');
+          if (hero) {
+            heroIntro(hero);
+            gsap.to(hero.querySelector('.hero-copy'), {
+              yPercent: -18,
+              ease: 'none',
+              scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 },
+            });
+            gsap.to(hero.querySelector('.hero-panels'), {
+              yPercent: 10,
+              ease: 'none',
+              scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 },
+            });
+          }
+
+          gsap.utils.toArray<HTMLElement>('.wing-photo img, .mosaic-item img').forEach((img) => {
+            gsap.fromTo(
+              img,
+              { '--py': '-28px' },
+              {
+                '--py': '28px',
+                ease: 'none',
+                scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
+              },
+            );
+          });
+
+          gsap.utils.toArray<HTMLElement>('.post').forEach((row) => {
+            gsap.from(row, {
+              x: -36,
+              autoAlpha: 0,
+              ease: 'none',
+              scrollTrigger: { trigger: row, start: 'top 96%', end: 'top 74%', scrub: 0.45 },
+            });
+          });
+
+          const rise = gsap.utils.toArray<HTMLElement>('[data-reveal]:not([data-reveal="wipe"]):not(.post)');
+          gsap.set(rise, { autoAlpha: 0, y: 22 });
           ScrollTrigger.batch(rise, {
-            start: 'top 90%',
+            start: 'top 88%',
             once: true,
             onEnter: (batch) =>
-              gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, overwrite: true }),
+              gsap.to(batch, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 1.15,
+                ease: 'power3.out',
+                stagger: 0.07,
+                overwrite: true,
+              }),
           });
 
           gsap.utils.toArray<HTMLElement>('[data-reveal="wipe"]').forEach((el) => {
             const img = el.querySelector('img');
-            const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 85%', once: true } });
-            tl.fromTo(el, { clipPath: shut }, { clipPath: open, duration: 1.2, ease: 'expo.inOut', clearProps: 'clipPath' });
-            if (img) tl.from(img, { scale: 1.18, duration: 1.6, ease: 'expo.out' }, 0.2);
+            const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 86%', once: true } });
+            tl.fromTo(el, { clipPath: shut }, { clipPath: open, duration: 1.4, ease: 'expo.inOut', clearProps: 'clipPath' });
+            if (img) tl.from(img, { scale: 1.12, duration: 1.9, ease: 'expo.out' }, 0.15);
           });
         });
       }
 
+      document.addEventListener('astro:before-preparation', () => sweepRule(true));
       document.addEventListener('astro:before-swap', teardown);
 
       function boot() {
         document.documentElement.classList.remove('is-ready');
+        sweepRule(false);
         bindMotion();
         requestAnimationFrame(() => document.documentElement.classList.add('is-ready'));
       }
