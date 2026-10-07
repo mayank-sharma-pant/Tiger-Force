@@ -2,18 +2,18 @@
 import Base from '../layouts/Base.astro';
 import { sectors, site } from '../data/site';
 
-const panels = [
-  { href: '/housekeeping', label: 'Housekeeping', src: '/media/hero/housekeeping.jpg', alt: 'A Tiger Force housekeeper making up a hotel room.', position: '22% 18%' },
-  { href: '/manpower', label: 'Manpower', src: '/media/hero/manpower.jpg', alt: 'An office executive in a business suit.', position: '46% 8%' },
-  { href: '/security', label: 'Security', src: '/media/home/radio.jpg', alt: 'A Tiger Force guard in uniform on the radio.', position: '82% 16%' },
-];
-
 const credentials = [
   { mark: 'DGR', text: 'Registered, Ministry of Defence' },
   { mark: 'PSARA', text: 'Licensed across multiple states' },
   { mark: 'ISO', text: '9001:2015 · 14001:2015 · SA 8000:2014' },
   { mark: 'CAPSI', text: 'Active member' },
   { mark: '20+ yrs', text: 'In security services' },
+];
+
+const panels = [
+  { href: '/housekeeping', label: 'Housekeeping', note: 'Hotels, hospitals, offices', src: '/media/hero/housekeeping.jpg', alt: 'A Tiger Force housekeeper making up a hotel room.', position: '22% 22%' },
+  { href: '/manpower', label: 'Manpower', note: 'Desks, hospitality, back office', src: '/media/hero/manpower.jpg', alt: 'An office executive in a business suit.', position: '50% 20%' },
+  { href: '/security', label: 'Security', note: 'Gates, events, night posts', src: '/media/hero/security.jpg', alt: 'A Tiger Force guard in uniform on the radio.', position: '42% 28%' },
 ];
 
 const wings = [
@@ -90,16 +90,15 @@ const gallery = [
 >
   <section class="hero" data-intro aria-labelledby="hero-title">
     <div class="hero-copy">
-      <p class="eyebrow" data-intro-fade>Security · Housekeeping · Manpower</p>
+      <p class="eyebrow" data-intro-fade>DGR registered · Ministry of Defence</p>
       <h1 id="hero-title">
-        <span class="hero-line"><span>Empowering</span></span>
-        <span class="hero-line"><span>you with</span></span>
-        <span class="hero-line is-accent"><span>quality</span></span>
-        <span class="hero-line"><span>solutions</span></span>
+        <span class="hero-line"><span>Guards,</span></span>
+        <span class="hero-line"><span>housekeepers,</span></span>
+        <span class="hero-line"><span>office staff.</span></span>
       </h1>
       <p class="hero-lede" data-intro-fade>
-        Trained guards, housekeeping teams and office staff for government offices, universities, hospitals, hotels
-        and factories across Delhi NCR and beyond.
+        For government offices, hospitals, universities, hotels and factories across Delhi NCR. Briefed before the
+        shift. Checked on the post.
       </p>
       <div class="hero-actions" data-intro-fade>
         <a class="btn btn-yellow" href="/contact">Request a site survey</a>
@@ -117,7 +116,10 @@ const gallery = [
               fetchpriority={index === 2 ? 'high' : undefined}
             />
           </span>
-          <span class="hero-panel-label">{panel.label}</span>
+          <span class="hero-panel-copy">
+            <span class="hero-panel-label">{panel.label}</span>
+            <span class="hero-panel-note">{panel.note}</span>
+          </span>
         </a>
       ))}
     </div>

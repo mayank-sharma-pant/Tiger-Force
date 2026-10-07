@@ -1,50 +1,22 @@
 ---
-import { aboutLinks, serviceLinks, site } from '../data/site';
+import { serviceLinks, site } from '../data/site';
 ---
 
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="/media/crest/group.png" alt="" width="96" loading="lazy" />
-      <p>
-        Security, housekeeping and manpower services across Delhi NCR and other states. Registered with the
-        Directorate General Resettlement, Ministry of Defence. PSARA licensed and ISO certified.
-      </p>
+      <img src="/media/crest/group.png" alt="" width="48" height="40" loading="lazy" />
+      <p>Security, housekeeping and manpower. DGR registered.</p>
     </div>
-    <div>
-      <h2>Services</h2>
-      <ul>
-        {serviceLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
-      </ul>
-    </div>
-    <div>
-      <h2>Company</h2>
-      <ul>
-        {aboutLinks.slice(0, 5).map((link) => <li><a href={link.href}>{link.label}</a></li>)}
-        <li><a href="/why-tiger-force">Why Tiger Force</a></li>
-        <li><a href="/clients">Clients</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2>Contact</h2>
-      <ul class="footer-contact">
-        {site.offices.map((office) => (
-          <li><strong>{office.label}</strong>{office.line}</li>
-        ))}
-        <li>
-          <strong>Phone</strong>
-          {site.phones.map((phone, index) => (
-            <>
-              <a href={`tel:+91${phone.replace(/^0/, '')}`}>{phone}</a>{index < site.phones.length - 1 ? ', ' : ''}
-            </>
-          ))}
-        </li>
-        <li>
-          <strong>Email</strong>
-          <a href={`mailto:${site.email}`}>{site.email}</a>
-        </li>
-      </ul>
-    </div>
+    <nav class="footer-links" aria-label="Footer">
+      {serviceLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+      <a href="/clients">Clients</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="footer-contact">
+      <a href={`tel:+91${site.phones[0]}`}>{site.phones[0]}</a>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </p>
   </div>
-  <p class="footer-legal">© {new Date().getFullYear()} Tiger Force Group. All rights reserved.</p>
+  <p class="footer-legal">© {new Date().getFullYear()} Tiger Force Group. {site.offices[0].line}</p>
 </footer>

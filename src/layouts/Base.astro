@@ -68,18 +68,22 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
         const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
         tl.from(hero.querySelector('.hero-panels'), {
           clipPath: 'inset(0% 100% 0% 0%)',
-          duration: 1.35,
+          duration: 1.15,
           ease: 'expo.inOut',
         })
           .from(
             hero.querySelectorAll('.hero-panel'),
-            { clipPath: 'inset(0% 100% 0% 0%)', duration: 1.45, stagger: 0.14, ease: 'expo.inOut' },
-            0.45,
+            { clipPath: 'inset(0% 100% 0% 0%)', duration: 1.15, stagger: 0.12, ease: 'expo.inOut', clearProps: 'clipPath' },
+            0.18,
           )
-          .from(hero.querySelectorAll('.hero-panel img'), { scale: 1.14, duration: 2.4, stagger: 0.14 }, 0.55)
-          .from(hero.querySelectorAll('.hero-panel-label'), { autoAlpha: 0, y: 10, duration: 0.9, stagger: 0.12 }, 1.45)
-          .from(hero.querySelectorAll('.hero-line > span'), { yPercent: 115, duration: 1.25, stagger: 0.09 }, 0.2)
-          .from(hero.querySelectorAll('[data-intro-fade]'), { autoAlpha: 0, y: 14, duration: 1.05, stagger: 0.1 }, 0.95);
+          .from(
+            hero.querySelectorAll('.hero-panel img'),
+            { scale: 1.16, duration: 1.7, stagger: 0.12, clearProps: 'transform' },
+            0.3,
+          )
+          .from(hero.querySelectorAll('.hero-line > span'), { yPercent: 115, duration: 1.1, stagger: 0.08 }, 0.08)
+          .from(hero.querySelectorAll('.hero-panel-copy'), { autoAlpha: 0, y: 18, duration: 0.7, stagger: 0.1 }, 0.72)
+          .from(hero.querySelectorAll('[data-intro-fade]'), { autoAlpha: 0, y: 14, duration: 0.9, stagger: 0.08 }, 0.55);
       }
 
       function sweepRule(out: boolean) {
@@ -129,12 +133,7 @@ const fullTitle = title === 'Tiger Force Group' ? title : `${title} | Tiger Forc
           if (hero) {
             heroIntro(hero);
             gsap.to(hero.querySelector('.hero-copy'), {
-              yPercent: -18,
-              ease: 'none',
-              scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 },
-            });
-            gsap.to(hero.querySelector('.hero-panels'), {
-              yPercent: 10,
+              yPercent: -12,
               ease: 'none',
               scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 },
             });
