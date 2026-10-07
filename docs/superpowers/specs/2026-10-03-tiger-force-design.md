@@ -4,18 +4,18 @@ Checkpoint before the rebuild of tigerforcegroup.com. If the build goes wrong, r
 
 ## Intent
 
-A static Astro site for Tiger Force Group: night-command presentation, rewritten voice, facts kept from the live site. Photos are copied from the current site and framed in the layout.
+A static Astro site for Tiger Force Group in the language of the client's printed brochure, with facts kept from the live site and the client's own files (deck, client list, brochure).
 
 ## Visual system
 
-- Ink `#071422`, field `#12243A`, gold `#C6A15B`, flare `#E8D5A3`, paper `#E6E0D4`, dossier `#9BB0A0`
-- Display: Big Shoulders Display. Body: Source Serif 4. Facts: IBM Plex Mono
-- Gold is a rule and a single word
-- Long reading sits on a paper well inside the night shell
+- Black `#0A0A0B` with `#151517` diagonal pinstripes, saffron `#FDB912` (sampled from the brochure), steel `#E8EDF2` pinstripe panels, white
+- Display: Archivo at its narrowest width, 800, uppercase. Body: Hanken Grotesk
+- One slash angle (14°) for panels, buttons, bullets and the banner bar; stripes at 120° as in the brochure
+- Yellow is for slashes, buttons and the one accent word, never body text
 
 ## Signature motion
 
-On each page change the crest stays and a gold rule draws once across the top. The homepage hero is one graded photograph. Scroll reveals clip photographs once. `prefers-reduced-motion` disables the draws.
+The homepage hero is the brochure cover: three slanted photo panels split by yellow slashes. On load the yellow sheet sweeps in, the panels open left to right and the headline rises line by line, about 1.6s in all. Elsewhere, content rises once on scroll and photographs open with a diagonal wipe. No counters, slideshows or looping effects. `prefers-reduced-motion` disables all of it.
 
 ## Pages
 

@@ -2,71 +2,78 @@
 import Base from '../layouts/Base.astro';
 import { sectors, site } from '../data/site';
 
-const divisions = [
+const panels = [
+  { href: '/housekeeping', label: 'Housekeeping', src: '/media/hero/housekeeping.jpg', alt: 'A Tiger Force housekeeper making up a hotel room.', position: '50% 20%' },
+  { href: '/manpower', label: 'Manpower', src: '/media/hero/manpower.jpg', alt: 'An office executive in a business suit.', position: '58% 0%' },
+  { href: '/security', label: 'Security', src: '/media/hero/salute.jpg', alt: 'A Tiger Force guard in uniform saluting.', position: '70% 0%' },
+];
+
+const credentials = [
+  { mark: 'DGR', text: 'Registered, Ministry of Defence' },
+  { mark: 'PSARA', text: 'Licensed across multiple states' },
+  { mark: 'ISO', text: '9001:2015 · 14001:2015 · SA 8000:2014' },
+  { mark: 'CAPSI', text: 'Active member' },
+  { mark: '20+ yrs', text: 'In security services' },
+];
+
+const wings = [
   {
     key: 'security',
-    name: 'Security Services',
+    name: 'Security',
     href: '/security',
     crest: '/media/crest/security.png',
-    photo: '/media/gallery/wa.jpg',
-    photoAlt: 'A Tiger Force officer briefing guards at a logistics yard.',
-    intro:
-      'Trained guards, verified by the police before deployment and briefed before every shift. Headed by Col K. K. Nanda (Retd).',
-    services: [
-      'Uniformed guarding',
-      'Event security',
-      'Security audit and consultancy',
-      'Security cover for VIPs',
-      'Investigations',
-      'Night patrol',
-    ],
+    photo: '/media/home/three.jpg',
+    photoAlt: 'Three Tiger Force guards posted outside a building.',
+    intro: 'Guards verified by the police before deployment and briefed before every shift. Headed by Col K. K. Nanda (Retd).',
+    services: ['Uniformed guarding', 'Event and VIP security', 'Security audits and surveys', 'Investigations'],
   },
   {
     key: 'housekeeping',
-    name: 'Housekeeping Services',
+    name: 'Housekeeping',
     href: '/housekeeping',
     crest: '/media/crest/housekeeping.png',
-    photo: '/media/housekeeping-2.jpg',
+    photo: '/media/housekeeping-wide.jpg',
     photoAlt: 'A housekeeper preparing a hotel room.',
-    intro:
-      'Integrated housekeeping with machines, the right chemical for each surface, regular audits and a relationship manager for every site.',
-    services: [
-      'Office cleaning',
-      'Hospital housekeeping',
-      'Hotel housekeeping',
-      'Public area cleaning',
-      'Factory housekeeping',
-      'Malls, IT parks and warehouses',
-    ],
+    intro: 'Mechanised cleaning, the right chemical for each surface, regular audits and a relationship manager for every site.',
+    services: ['Offices and IT parks', 'Hospitals', 'Hotels', 'Factories and warehouses'],
   },
   {
     key: 'manpower',
-    name: 'Manpower Solutions',
+    name: 'Manpower',
     href: '/manpower',
     crest: '/media/crest/manpower.png',
     photo: '/media/gallery/picture-20.jpg',
     photoAlt: 'Tiger Force staff at a reception desk.',
-    intro:
-      'Front-office, hospitality and back-office staff, led by Mr Aditya Nanda, who specialises in the hospitality industry.',
-    services: [
-      'Reception desk services',
-      'Food and beverage staff',
-      'Kitchen stewarding',
-      'IT desk solutions',
-      'Computer operators',
-      'Call centre solutions',
-    ],
+    intro: 'Front-office, hospitality and back-office staff, led by Mr Aditya Nanda, who specialises in the hospitality industry.',
+    services: ['Reception desks', 'Data entry and office assistants', 'Food and beverage staff', 'Call centre and IT desks'],
   },
 ];
 
-const supervision = [
-  { value: 14, unit: 'days', label: 'of training before a guard is deployed, including two days for your sector' },
-  { value: 15, unit: 'minutes', label: 'of briefing before every shift, and a debrief after it' },
-  { value: 4, unit: 'visits a week', label: 'by the area officer, signed in the muster book on site' },
-  { value: 3, unit: 'night checks a week', label: 'at varied hours, so every check is a surprise' },
+const posts = [
+  { count: 894, name: 'Jamia Millia Islamia', role: 'General manpower', place: 'New Delhi' },
+  { count: 112, name: 'Institute of Chartered Accountants of India', role: 'Security', place: 'Delhi and Noida' },
+  { count: 98, name: 'Daikin Air-Conditioning India', role: 'Security', place: 'Neemrana, Rajasthan' },
+  { count: 92, name: 'Fortis Escorts Heart Institute', role: 'Security and manpower', place: 'New Delhi' },
+  { count: 65, name: 'Ministry of Defence, CWE', role: 'Tradesmen', place: 'New Delhi' },
+  { count: 52, name: 'Army College of Medical Sciences', role: 'Security, housekeeping, horticulture', place: 'New Delhi' },
 ];
 
-const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
+const supervision = [
+  { value: 14, unit: 'Days', label: 'of training before a guard is deployed, including two days for your sector' },
+  { value: 15, unit: 'Minutes', label: 'of briefing before every shift, and a debrief after it' },
+  { value: 4, unit: 'Visits a week', label: 'by the area officer, signed in the muster book on site' },
+  { value: 3, unit: 'Night checks a week', label: 'at varied hours, so every check is a surprise' },
+];
+
+const starPoints = [
+  { title: 'Selection', text: 'Recruitment held to a high standard' },
+  { title: 'Training', text: 'Quality training before anyone is posted' },
+  { title: 'Manpower', text: 'Alert, efficient people on the post' },
+  { title: 'Compliance', text: 'Statutory licences kept in order' },
+  { title: 'Response', text: 'A fast answer, and value for money' },
+];
+
+const logos = Array.from({ length: 18 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
 
 const gallery = [
   { src: '/media/gallery/picture-212.jpg', alt: 'Event security escorting guests at an exhibition.', label: 'Event security' },
@@ -81,223 +88,212 @@ const gallery = [
   title="Tiger Force Group"
   description="Tiger Force Group provides security, housekeeping and manpower services. Registered with DGR, Ministry of Defence. PSARA licensed and ISO certified. Led by Col K. K. Nanda (Retd)."
 >
-  <section class="crest-scene" data-scene>
-    <div class="crest-stage">
-      <div class="stage-glow" aria-hidden="true"></div>
-      <div class="stage-stripes" aria-hidden="true"></div>
-
-      <div class="crest-hero">
-        <div class="crest-mark">
-          <svg class="crest-outline" viewBox="0 0 200 200" aria-hidden="true">
-            <circle class="ring" cx="100" cy="100" r="96" pathLength="1"></circle>
-            <circle class="ticks" cx="100" cy="100" r="88"></circle>
-          </svg>
-          <img class="crest-group" src="/media/crest/group.png" alt="Tiger Force Group crest" width="900" height="744" />
-        </div>
-        <div class="crest-title">
-          <h1><span class="line">Tiger Force</span> <span class="line accent">Group</span></h1>
-          <p>Security, housekeeping and manpower</p>
-          <p class="crest-facts">DGR registered <i></i> PSARA licensed <i></i> ISO certified</p>
-        </div>
-      </div>
-
-      <div class="crest-divisions">
-        <p class="divisions-kicker">Three divisions <i></i> One standard</p>
-        {divisions.map((division, index) => (
-          <a class={`crest-division is-${division.key}`} href={division.href} style={`--i:${index - 1}`}>
-            <img src={division.crest} alt="" width="445" height="388" />
-            <strong>{division.name}</strong>
-            <span>{division.services.slice(0, 3).join(', ')}</span>
-          </a>
-        ))}
-      </div>
-
-      <img class="stage-guards" src="/media/guards.png" alt="" width="1600" height="571" />
-      <div class="scroll-cue" aria-hidden="true"><span></span>Scroll</div>
-    </div>
-  </section>
-
-  <section class="intro">
-    <p class="eyebrow">Registered with the Ministry of Defence</p>
-    <h2>Two decades of keeping India’s institutions secure, clean and staffed.</h2>
-    <div class="intro-foot">
-      <p>
-        Tiger Force Group is a licensed company registered with the Directorate General Resettlement, Ministry of
-        Defence, New Delhi. Its people serve government offices, universities, hospitals, five-star hotels,
-        factories, warehouses and residential complexes.
+  <section class="hero" data-intro aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow" data-intro-fade>Security · Housekeeping · Manpower</p>
+      <h1 id="hero-title">
+        <span class="hero-line"><span>Empowering</span></span>
+        <span class="hero-line"><span>you with</span></span>
+        <span class="hero-line is-accent"><span>quality</span></span>
+        <span class="hero-line"><span>solutions</span></span>
+      </h1>
+      <p class="hero-lede" data-intro-fade>
+        Trained guards, housekeeping teams and office staff for government offices, universities, hospitals, hotels
+        and factories across Delhi NCR and beyond.
       </p>
-      <div>
-        <ul class="badges">
-          <li><strong>DGR</strong> Ministry of Defence registration</li>
-          <li><strong>PSARA</strong> Licences for various states</li>
-          <li><strong>ISO</strong> Certified processes</li>
-        </ul>
-        <a class="btn btn-navy" href="/brief-profile">Read our profile</a>
+      <div class="hero-actions" data-intro-fade>
+        <a class="btn btn-yellow" href="/contact">Request a site survey</a>
+        <a class="link-arrow" href={`tel:+91${site.phones[0]}`}>Call {site.phones[0]}</a>
       </div>
     </div>
-  </section>
-
-  <section class="divisions" data-divisions aria-label="Our three divisions">
-    {divisions.map((division) => (
-      <article class={`division is-${division.key}`} data-division={division.key}>
-        <div class="division-body">
-          <img class="division-crest" src={division.crest} alt="" width="120" height="104" loading="lazy" />
-          <h2>{division.name}</h2>
-          <p data-reveal style="--d:1">{division.intro}</p>
-          <ul class="service-list">
-            {division.services.map((service, index) => (
-              <li data-reveal style={`--d:${index + 2}`}>{service}</li>
-            ))}
-          </ul>
-          <a class="btn btn-yellow" href={division.href} data-reveal style="--d:8">
-            Explore {division.name.toLowerCase()}
-          </a>
-        </div>
-        <figure class="division-photo" data-reveal="wipe">
-          <img src={division.photo} alt={division.photoAlt} loading="lazy" />
-        </figure>
-      </article>
-    ))}
-  </section>
-
-  <section class="supervision">
-    <div class="section-heading">
-      <p class="eyebrow" data-reveal>Supervision</p>
-      <h2 data-reveal style="--d:1">How every post is kept</h2>
-      <p data-reveal style="--d:2">
-        Every guard is vetted and verified by the police before deployment. After that, the schedule below runs at
-        every site.
-      </p>
-    </div>
-    <ul class="metrics">
-      {supervision.map((item, index) => (
-        <li data-reveal style={`--d:${index}`}>
-          <span class="metric-value"><b data-count={item.value}>{item.value}</b></span>
-          <span class="metric-unit">{item.unit}</span>
-          <span class="metric-label">{item.label}</span>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section class="leader">
-    <div class="leader-inner">
-      <blockquote data-reveal>
-        <p>
-          We take pride in the welfare of our personnel and always pay them on time. Our security personnel are our
-          strength.
-        </p>
-        <footer>
-          <strong>Col K. K. Nanda (Retd)</strong>
-          Managing Director
-        </footer>
-      </blockquote>
-      <ul class="leader-facts">
-        <li data-reveal style="--d:1"><b>32 years</b> in the Indian Army</li>
-        <li data-reveal style="--d:2"><b>Instructor</b> at the National Defence Academy</li>
-        <li data-reveal style="--d:3"><b>Commanded</b> an infantry battalion</li>
-        <li data-reveal style="--d:4"><b>Organised</b> security for Mr Bill Gates</li>
-      </ul>
-      <div class="leader-links" data-reveal style="--d:5">
-        <a class="btn btn-navy" href="/mds-profile">MD’s profile</a>
-        <a class="link-arrow" href="/mds-message">Read the MD’s message</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="clients-band">
-    <div class="section-heading">
-      <p class="eyebrow" data-reveal>Clients</p>
-      <h2 data-reveal style="--d:1">Trusted by government and industry</h2>
-    </div>
-    <ul class="sector-chips">
-      {sectors.map((sector) => <li>{sector}</li>)}
-    </ul>
-    <div class="logo-grid home-logos">
-      {logos.slice(0, 18).map((src) => (
-        <div class="logo-cell"><img src={src} alt="" loading="lazy" /></div>
-      ))}
-    </div>
-    <p class="center"><a class="link-arrow" href="/clients">See the full client list</a></p>
-  </section>
-
-  <section class="gallery-band">
-    <div class="section-heading is-light">
-      <p class="eyebrow" data-reveal>Gallery</p>
-      <h2 data-reveal style="--d:1">On duty</h2>
-    </div>
-    <div class="mosaic">
-      {gallery.map((shot, index) => (
-        <a class="mosaic-item" href="/gallery" data-reveal="wipe" style={`--d:${index}`}>
-          <img src={shot.src} alt={shot.alt} loading="lazy" />
-          <span>{shot.label}</span>
+    <div class="hero-panels">
+      {panels.map((panel, index) => (
+        <a class="hero-panel" href={panel.href}>
+          <span class="hero-panel-media">
+            <img
+              src={panel.src}
+              alt={panel.alt}
+              style={`object-position:${panel.position}`}
+              fetchpriority={index === 2 ? 'high' : undefined}
+            />
+          </span>
+          <span class="hero-panel-label">{panel.label}</span>
         </a>
       ))}
     </div>
   </section>
 
-  <section class="cta">
+  <section class="creds" aria-label="Credentials">
+    <ul>
+      {credentials.map((item) => (
+        <li><b>{item.mark}</b> {item.text}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="wings is-steel" aria-labelledby="wings-title">
+    <div class="wrap">
+      <div class="section-heading">
+        <p class="eyebrow" data-reveal>Three wings</p>
+        <h2 id="wings-title" data-reveal>Security, housekeeping and manpower under one command</h2>
+      </div>
+      <div class="wing-grid">
+        {wings.map((wing) => (
+          <article class="wing" data-reveal>
+            <figure class="wing-photo">
+              <img src={wing.photo} alt={wing.photoAlt} loading="lazy" />
+            </figure>
+            <div class="wing-body">
+              <img class="wing-crest" src={wing.crest} alt="" width="84" height="73" loading="lazy" />
+              <h3>{wing.name}</h3>
+              <p>{wing.intro}</p>
+              <ul class="service-list">
+                {wing.services.map((service) => <li>{service}</li>)}
+              </ul>
+              <a class="link-arrow" href={wing.href}>Explore {wing.name.toLowerCase()}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="posts" aria-labelledby="posts-title">
+    <div class="wrap">
+      <div class="posts-head">
+        <div class="section-heading">
+          <p class="eyebrow" data-reveal>On duty today</p>
+          <h2 id="posts-title" data-reveal>Posts we hold right now</h2>
+        </div>
+        <p data-reveal>
+          A partial list of current contracts, with the number of Tiger Force personnel deployed at each site.
+        </p>
+      </div>
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li class="post" data-reveal>
+            <span class="post-count">{post.count}<small>Deployed</small></span>
+            <span class="post-name">{post.name}</span>
+            <span class="post-role">{post.role}</span>
+            <span class="post-place">{post.place}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="posts-foot" data-reveal>
+        <span>Performance certificates from clients are available on request.</span>
+        <a class="link-arrow" href="/clients">See all clients</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="standard is-dark" aria-labelledby="standard-title">
+    <div class="wrap">
+      <div class="section-heading">
+        <p class="eyebrow" data-reveal>Supervision</p>
+        <h2 id="standard-title" data-reveal>How every post is kept</h2>
+        <p data-reveal>
+          Every guard is vetted and verified by the police before deployment. After that, the same schedule runs at
+          every site.
+        </p>
+      </div>
+      <ul class="metrics">
+        {supervision.map((item) => (
+          <li data-reveal>
+            <span class="metric-value">{item.value}</span>
+            <span class="metric-unit">{item.unit}</span>
+            <span class="metric-label">{item.label}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="star">
+        <div class="star-head">
+          <h3 data-reveal>The Star: five points we are judged on</h3>
+          <a class="link-arrow" href="/why-tiger-force" data-reveal>Why Tiger Force</a>
+        </div>
+        <ul class="star-points">
+          {starPoints.map((point) => (
+            <li data-reveal><b>{point.title}</b>{point.text}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="leader" aria-labelledby="leader-title">
+    <div class="wrap leader-inner">
+      <figure class="leader-photo" data-reveal>
+        <img src="/media/team/kk-nanda.jpg" alt="Col K. K. Nanda (Retd)" width="348" height="371" loading="lazy" />
+        <figcaption><strong>Col K. K. Nanda (Retd)</strong>Managing Director</figcaption>
+      </figure>
+      <div>
+        <p class="eyebrow" data-reveal id="leader-title">From the Managing Director</p>
+        <blockquote data-reveal>
+          <p>
+            We take pride in the welfare of our personnel and always pay them on time. Our security personnel are our
+            strength.
+          </p>
+        </blockquote>
+        <ul class="leader-facts">
+          <li data-reveal><b>32 years</b> in the Indian Army</li>
+          <li data-reveal><b>Instructor</b> at the National Defence Academy</li>
+          <li data-reveal><b>Commanded</b> an infantry battalion</li>
+          <li data-reveal><b>Organised</b> security for Mr Bill Gates</li>
+        </ul>
+        <div class="leader-links" data-reveal>
+          <a class="btn btn-navy" href="/mds-profile">MD’s profile</a>
+          <a class="link-arrow" href="/mds-message">Read the MD’s message</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="clients-band is-steel" aria-labelledby="clients-title">
+    <div class="wrap">
+      <div class="section-heading">
+        <p class="eyebrow" data-reveal>Clients</p>
+        <h2 id="clients-title" data-reveal>Trusted by government and industry</h2>
+      </div>
+      <ul class="sector-chips" data-reveal>
+        {sectors.map((sector) => <li>{sector}</li>)}
+      </ul>
+      <div class="logo-grid" data-reveal>
+        {logos.map((src) => (
+          <div class="logo-cell"><img src={src} alt="" loading="lazy" /></div>
+        ))}
+      </div>
+      <p class="center"><a class="link-arrow" href="/clients">See the full client list</a></p>
+    </div>
+  </section>
+
+  <section class="gallery-band" aria-labelledby="gallery-title">
+    <div class="wrap">
+      <div class="section-heading">
+        <p class="eyebrow" data-reveal>Gallery</p>
+        <h2 id="gallery-title" data-reveal>On duty</h2>
+      </div>
+      <div class="mosaic">
+        {gallery.map((shot) => (
+          <a class="mosaic-item" href="/gallery" data-reveal="wipe">
+            <img src={shot.src} alt={shot.alt} loading="lazy" />
+            <span>{shot.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" aria-labelledby="cta-title">
     <div class="cta-inner">
       <div>
-        <h2 data-reveal>Request a site survey</h2>
-        <p data-reveal style="--d:1">
+        <h2 id="cta-title" data-reveal>Request a site survey</h2>
+        <p data-reveal>
           We survey your premises and send a written report with our recommendations before anyone is deployed.
         </p>
       </div>
-      <div class="cta-actions" data-reveal style="--d:2">
-        <a class="btn btn-navy" href="/contact">Contact us</a>
+      <div class="cta-actions" data-reveal>
+        <a class="btn btn-light" href="/contact">Send an enquiry</a>
         <a class="cta-phone" href={`tel:+91${site.phones[0]}`}>{site.phones[0]}</a>
       </div>
     </div>
   </section>
 </Base>
-
-<script>
-  function bindScene() {
-    const scene = document.querySelector<HTMLElement>('[data-scene]');
-    if (!scene || scene.dataset.bound) return;
-    scene.dataset.bound = 'true';
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const rect = scene.getBoundingClientRect();
-      const travel = scene.offsetHeight - window.innerHeight;
-      const progress = travel > 0 ? Math.min(1, Math.max(0, -rect.top / travel)) : 0;
-      scene.style.setProperty('--p', progress.toFixed(4));
-      scene.classList.toggle('is-split', progress > 0.35);
-    };
-    const request = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener('scroll', request, { passive: true });
-    window.addEventListener('resize', request);
-    document.addEventListener('astro:before-swap', () => {
-      window.removeEventListener('scroll', request);
-      window.removeEventListener('resize', request);
-    }, { once: true });
-  }
-
-  function bindDivisions() {
-    const wrap = document.querySelector<HTMLElement>('[data-divisions]');
-    if (!wrap || wrap.dataset.bound) return;
-    wrap.dataset.bound = 'true';
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) wrap.dataset.tone = (entry.target as HTMLElement).dataset.division;
-        });
-      },
-      { rootMargin: '-45% 0px -45% 0px' },
-    );
-    wrap.querySelectorAll('[data-division]').forEach((node) => observer.observe(node));
-    wrap.dataset.tone = 'security';
-  }
-
-  document.addEventListener('astro:page-load', () => {
-    bindScene();
-    bindDivisions();
-  });
-</script>

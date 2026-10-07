@@ -4,6 +4,7 @@ import PageBanner from '../components/PageBanner.astro';
 import { clientsNamed, sectors } from '../data/site';
 
 const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${String(index + 1).padStart(2, '0')}.jpg`);
+const run = logos.slice(0, 18);
 ---
 
 <Base
@@ -15,13 +16,19 @@ const logos = Array.from({ length: 39 }, (_, index) => `/media/clients/client-${
     lede="Government organisations, universities, hospitals, hotels, manufacturers and logistics companies."
     current="Clients"
   />
-  <div class="page-wide">
-    <ul class="sector-chips is-left" data-reveal>
+  <div class="page-wide clients-page">
+    <p class="clients-count">{logos.length} organisations</p>
+    <div class="logo-run" aria-hidden="true">
+      <div class="logo-run-track">
+        {[...run, ...run].map((src) => <img src={src} alt="" />)}
+      </div>
+    </div>
+    <ul class="sector-chips is-left">
       {sectors.map((sector) => <li>{sector}</li>)}
     </ul>
     <div class="logo-grid">
       {logos.map((src, index) => (
-        <div class="logo-cell" data-reveal style={`--d:${index % 6}`}>
+        <div class="logo-cell" style={`--d:${index % 6}`}>
           <img src={src} alt={`Client logo ${index + 1}`} loading="lazy" />
         </div>
       ))}

@@ -87,7 +87,7 @@ const inGroup = (links: { href: string }[]) => links.some((link) => link.href ==
 
     const onScroll = () => {
       const scene = document.querySelector<HTMLElement>('[data-scene]');
-      const threshold = scene ? Math.max(48, scene.offsetHeight - window.innerHeight - 8) : 24;
+      const threshold = scene ? Math.max(24, scene.offsetHeight - 88) : 24;
       header.classList.toggle('is-solid', window.scrollY > threshold);
     };
     onScroll();
